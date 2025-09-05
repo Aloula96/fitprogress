@@ -1,0 +1,49 @@
+.features {
+    background-color: #000; /* dark background */
+    color: #fff; /* text color white for contrast */
+    /* padding: 3rem 1rem; */
+    width: 100%;
+     text-align: center;  
+}
+
+
+.card-custom {
+    background-color: #1a1a1a; /* exemple */
+    color: #fff;
+    border: none;
+    width: 100%;
+    max-width: 100%;
+}
+
+.card-img-top {
+    width: 100%;
+    height: auto; /* garde l’image responsive */
+}
+
+.features h1 {
+    margin-bottom: 2rem;    /* spacing below title */
+}
+
+.card-custom {
+    background-color: #1a1a1a; /* slightly lighter black for cards */
+    color: #fff;                /* text inside cards white */
+    border: none;
+    width: 100%;                /* responsive width */
+    max-width: 100%;
+}
+
+.card-img-top {
+    width: 100%;
+    height: auto;
+}
+/* keeps image responsive */
+.card-body {
+    padding: 1rem; /* spacing inside card body */
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa; /* light background for the whole page */
+    color: #333;               /* dark text for readability */
+    margin: 0;
+    padding: 0;
+}

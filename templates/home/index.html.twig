@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %} {% block title %}Hello HomeController!{% endblock
+%} {% block body %} {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('styles/home.css') }}" />
+{% endblock %} {% block javascripts %} {% block importmap %}
+{{ importmap("app") }}
+{% endblock %}
+<script src="{{ asset('js/home.js') }}"></script>
+{% endblock %}
+<section class="hero">
+    <img
+        src="https://images.pexels.com/photos/669576/pexels-photo-669576.jpeg"
+        alt="Fitness Image"
+        class="hero-image"
+    />
+
+    <div class="hero-box">
+        <h1>Un corps à <span>ton image</span></h1>
+        <p>
+            Suivez vos progrès en matière de remise en forme ; atteignez vos
+            objectifs de remise en forme et suivez vos progrès
+        </p>
+        <a href="#" class="hero-btn">Rejoignez-nous</a>
+    </div>
+</section>
+
+<section class="features my-5">
+    <h1 class="mb-4">Votre ambition fitness ??</h1>
+    <div class="row">
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card card-custom h-100">
+                <img
+                    src="https://images.pexels.com/photos/6388453/pexels-photo-6388453.jpeg"
+                    class="card-img-top"
+                    alt="..."
+                />
+                <div class="card-body">
+                    <p>
+                        Some quick example text to build on the card title and
+                        make up the bulk of the card’s content.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card card-custom h-100">
+                <img
+                    src="https://images.pexels.com/photos/6388453/pexels-photo-6388453.jpeg"
+                    class="card-img-top"
+                    alt="..."
+                />
+                <div class="card-body">
+                    <p>
+                        Some quick example text to build on the card title and
+                        make up the bulk of the card’s content.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card card-custom h-100">
+                <img
+                    src="https://images.pexels.com/photos/6388453/pexels-photo-6388453.jpeg"
+                    class="card-img-top"
+                    alt="..."
+                />
+                <div class="card-body">
+                    <p>
+                        Some quick example text to build on the card title and
+                        make up the bulk of the card’s content.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
