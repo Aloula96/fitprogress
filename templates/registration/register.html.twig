@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %} {% block title %}Créer un compte{% endblock %} {%
+block stylesheets %}
+<link rel="stylesheet" href="{{ asset('styles/registration.css') }}" />
+{% endblock %} {% block body %}
+<main>
+    <div class="form-container">
+        <h1>Créer un compte</h1>
+
+        {{ form_start(form, {'attr': {'class': 'registration-form'}}) }}
+
+        <div class="input-group">
+            <span class="icon">👤</span>
+            {{ form_widget(form.name, {'attr': {'placeholder': 'Nom'}}) }}
+        </div>
+
+        <div class="input-group">
+            <span class="icon">📧</span>
+            {{ form_widget(form.email, {'attr': {'placeholder': 'Email'}}) }}
+        </div>
+
+        <div class="input-group">
+            <span class="icon">🔒</span>
+            {{ form_widget(form.plainPassword, {'attr': {'placeholder': 'Mot de passe'
+
+            }}) }}
+        </div>
+
+        <div class="input-group">
+            <span class="icon">📅</span>
+            {{ form_widget(form.age, {'attr': {'placeholder': 'Âge'}}) }}
+        </div>
+
+        <div class="input-group">
+            <span class="icon">📏</span>
+            {{ form_widget(form.height, {'attr': {'placeholder': 'Taille (cm)'
+
+            }}) }}
+        </div>
+
+        <div class="input-group">
+            <span class="icon">⚖️</span>
+            {{ form_widget(form.weight, {'attr': {'placeholder': 'Poids de départ (kg)'
+
+            }}) }}
+        </div>
+
+        <div class="btn-submit">
+            {{ form_widget(form.save, {'attr': {'class': 'btn-submit'}}) }}
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+</main>
+{% endblock %}

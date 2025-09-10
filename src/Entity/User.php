@@ -6,11 +6,14 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -38,6 +41,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: BodyWeight::class, mappedBy: 'User')]
     private Collection $bodyWeights;
+
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
+    #[ORM\Column]
+    private ?int $age = null;
+
+    #[ORM\Column]
+    #[Groups(['user_read'])]
+    private ?int $height = null;
+
+    #[ORM\Column]
+    #[Groups(['user_read'])]
+    private ?float $weight = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Goal $Goal = null;
 
     public function __construct()
     {
@@ -115,7 +135,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $data = (array) $this;
         $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password);
-        
+
         return $data;
     }
 
@@ -151,6 +171,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $bodyWeight->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getAge(): ?int
+    {
+        return $this->age;
+    }
+
+    public function setAge(int $age): static
+    {
+        $this->age = $age;
+
+        return $this;
+    }
+
+    public function getHeight(): ?int
+    {
+        return $this->height;
+    }
+
+    public function setHeight(int $height): static
+    {
+        $this->height = $height;
+
+        return $this;
+    }
+
+    public function getWeight(): ?float
+    {
+        return $this->weight;
+    }
+
+    public function setWeight(float $weight): static
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    public function getGoal(): ?Goal
+    {
+        return $this->Goal;
+    }
+
+    public function setGoal(?Goal $Goal): static
+    {
+        $this->Goal = $Goal;
 
         return $this;
     }

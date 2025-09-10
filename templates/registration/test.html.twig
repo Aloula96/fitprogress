@@ -1,0 +1,7 @@
+<div id="test" data-imc="{{ userJson }}">Test</div>
+
+{% block javascripts %} {% block importmap %}
+{{ importmap("app") }}
+{% endblock %}
+<script src="{{ asset('js/test.js') }}"></script>
+{% endblock %}

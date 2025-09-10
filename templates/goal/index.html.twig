@@ -1,20 +1,67 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %}Choix de l'objectif{% endblock
+%} {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('styles/goal.css') }}" />
+{% endblock %} {% block javascripts %} {% block importmap %}
+{{ importmap("app") }}
+{% endblock %}
 
-{% block title %}Hello GoalController!{% endblock %}
+<script src="{{ asset('js/goal.js') }}"></script>
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% endblock %} {% block body %}
+<div class="goal-container">
+    <!-- Back button -->
+    <div class="back-button">
+        <a href="{{ path('app_home') }}">
+            <span class="back-icon">←</span>
+            <span>Retourner au site</span>
+        </a>
+    </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <!-- Title -->
+    <h2 class="goal-title">Quel est ton objectif?</h2>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/aloul/Documents/5.Projet final/fitprogress/src/Controller/GoalController.php</code></li>
-        <li>Your template at <code>C:/Users/aloul/Documents/5.Projet final/fitprogress/templates/goal/index.html.twig</code></li>
-    </ul>
+    <!-- Options -->
+    <form method="post" class="goal-form">
+        <div class="goal-options">
+            <!-- Option 1 -->
+            <label class="goal-card">
+                <input type="radio" name="goal" value="prise_de_masse" hidden />
+                <div class="goal-content">
+                    <div class="goal-icon">🏋️</div>
+                    <h3>Prendre du muscle</h3>
+                    <p>Programme basé sur la musculation progressive</p>
+                </div>
+            </label>
+
+            <!-- Option 2 -->
+            <label class="goal-card">
+                <input type="radio" name="goal" value="perte_de_poids" hidden />
+                <div class="goal-content">
+                    <div class="goal-icon">⚡</div>
+                    <h3>Perdre du poid</h3>
+                    <p>Programme axé sur la perte de poids</p>
+                </div>
+            </label>
+
+            <!-- Option 3 -->
+            <label class="goal-card">
+                <input
+                    type="radio"
+                    name="goal"
+                    value="reprise_du_sport"
+                    hidden
+                />
+                <div class="goal-content">
+                    <div class="goal-icon">⚡</div>
+                    <h3>Maintenir du poid</h3>
+                    <p>Programme axé sur la perte de poids</p>
+                </div>
+            </label>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="submit-btn">Valider mon objectif</button>
+    </form>
 </div>
 {% endblock %}

@@ -6,7 +6,9 @@ use App\Repository\GoalRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Enum\GoalType;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: GoalRepository::class)]
 class Goal
 {
@@ -15,56 +17,73 @@ class Goal
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 20)]
-    private ?string $type = null;
+    // ✅ Keep only the enum for Goal type
+    #[ORM\Column(enumType: GoalType::class)]
+    private ?GoalType $type = null;
 
-    #[ORM\Column]
-    private ?\DateTime $updatedAt = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column]
     private ?float $targetWeight = null;
 
-    #[ORM\Column]
-    private ?\DateTime $startDate = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $startDate = null;
 
-    #[ORM\Column]
-    private ?\DateTime $endDate = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $endDate = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Workoutplan $Workoutplan = null;
+    private ?WorkoutPlan $workoutPlan = null;
+
+
+    #[ORM\ManyToOne(inversedBy: 'goals')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+
+    // ---------------- Getters & Setters ----------------
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+        return $this;
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getType(): ?string
+    public function getType(): ?GoalType
     {
         return $this->type;
     }
 
-    public function setType(string $type): static
+    public function setType(GoalType $type): static
     {
         $this->type = $type;
-
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTime
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTime $updatedAt): static
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
-
         return $this;
     }
 
@@ -76,31 +95,28 @@ class Goal
     public function setTargetWeight(float $targetWeight): static
     {
         $this->targetWeight = $targetWeight;
-
         return $this;
     }
 
-    public function getStartDate(): ?\DateTime
+    public function getStartDate(): ?\DateTimeInterface
     {
         return $this->startDate;
     }
 
-    public function setStartDate(\DateTime $startDate): static
+    public function setStartDate(\DateTimeInterface $startDate): static
     {
         $this->startDate = $startDate;
-
         return $this;
     }
 
-    public function getEndDate(): ?\DateTime
+    public function getEndDate(): ?\DateTimeInterface
     {
         return $this->endDate;
     }
 
-    public function setEndDate(\DateTime $endDate): static
+    public function setEndDate(\DateTimeInterface $endDate): static
     {
         $this->endDate = $endDate;
-
         return $this;
     }
 
@@ -112,7 +128,6 @@ class Goal
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
@@ -124,19 +139,23 @@ class Goal
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
-    public function getWorkoutplan(): ?Workoutplan
+    public function getWorkoutPlan(): ?WorkoutPlan
     {
-        return $this->Workoutplan;
+        return $this->workoutPlan;
     }
 
-    public function setWorkoutplan(?Workoutplan $Workoutplan): static
+    public function setWorkoutplan(?WorkoutPlan $workoutPlan): static
     {
-        $this->Workoutplan = $Workoutplan;
-
+        $this->workoutPlan = $workoutPlan;
         return $this;
+    }
+    #[ORM\PrePersist]
+    public function onPrePersist(): void
+    {
+        $this->startDate ??= new \DateTimeImmutable();
+        $this->endDate ??= new \DateTimeImmutable();
     }
 }

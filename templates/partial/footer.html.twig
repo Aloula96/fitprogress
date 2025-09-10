@@ -1,0 +1,49 @@
+<hr />
+<footer class="footer mt-5">
+    <div class="container">
+        <div class="row">
+            <!-- Logo & About -->
+            <div class="col-md-4 mb-4">
+                <h3 class="footer-logo">FitProgress</h3>
+                <p>
+                    Votre coach personnel en ligne.<br />
+                    Suivez vos progrès, atteignez vos objectifs, restez motivé
+                    🚀
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-md-4 mb-4">
+                <h5>Navigation</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{{ path('app_home') }}">Accueil</a></li>
+                    <li><a href="{{ path('goal') }}">Objectifs</a></li>
+                    <li><a href="#">Programmes</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact & Socials -->
+            <div class="col-md-4 mb-4">
+                <h5>Contact</h5>
+                <p>
+                    Email :
+                    <a href="mailto:contact@fitprogress.com"
+                        >contact@fitprogress.com</a
+                    >
+                </p>
+                <div class="social-icons">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <p class="mb-0">
+                &copy; {{ "now"|date("Y") }} FitProgress. Tous droits réservés.
+            </p>
+        </div>
+    </div>
+</footer>
