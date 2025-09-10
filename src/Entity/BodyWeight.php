@@ -17,10 +17,14 @@ class BodyWeight
     private ?float $weightValue = null;
 
     #[ORM\Column]
-    private ?\DateTime $recodedAt = null;
+    private ?\DateTime $recordedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'bodyWeights')]
-    private ?User $User = null;
+    private ?User $user = null;
+    public function __construct()
+    {
+        $this->recordedAt = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -39,26 +43,26 @@ class BodyWeight
         return $this;
     }
 
-    public function getRecodedAt(): ?\DateTime
+    public function getRecordedAt(): ?\DateTime
     {
-        return $this->recodedAt;
+        return $this->recordedAt;
     }
 
-    public function setRecodedAt(\DateTime $recodedAt): static
+    public function setRecordedAt(\DateTime $recordedAt): static
     {
-        $this->recodedAt = $recodedAt;
+        $this->recordedAt = $recordedAt;
 
         return $this;
     }
 
     public function getUser(): ?User
     {
-        return $this->User;
+        return $this->user;
     }
 
-    public function setUser(?User $User): static
+    public function setUser(?User $user): static
     {
-        $this->User = $User;
+        $this->user = $user;
 
         return $this;
     }

@@ -70,12 +70,37 @@ class RegistrationController extends AbstractController
         ]);
     }
     #[Route('/user', name: 'app_user')]
-    public function show(EntityManagerInterface $em): Response
+
+    public function show(Request $request, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
 
-        // Récupérer l'évolution du poids
-        $weights = $em->getRepository(BodyWeight::class)->findBy(['user' => $user], ['date' => 'ASC']);
+        if (!$user) {
+            throw $this->createAccessDeniedException('Tu dois être connecté pour voir ton profil.');
+        }
+
+        // Vérifie si un nouveau poids a été soumis
+        if ($request->isMethod('POST')) {
+            $newWeight = $request->request->get('weightValue');
+
+            if ($newWeight) {
+                $weight = new BodyWeight();
+                $weight->setWeightValue((float) $newWeight);
+                $weight->setUser($user);
+
+                $em->persist($weight);
+                $em->flush();
+
+                $this->addFlash('success', 'Nouveau poids enregistré !');
+                return $this->redirectToRoute('app_user');
+            }
+        }
+
+        // Récupérer tous les poids enregistrés
+        $weights = $em->getRepository(BodyWeight::class)->findBy(
+            ['user' => $user],
+            ['recordedAt' => 'ASC']
+        );
 
         return $this->render('registration/show.html.twig', [
             'user' => $user,
