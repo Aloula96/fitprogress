@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Enum\GoalType;
+use App\Enum\WorkoutLevel;
 use App\Enum\WorkoutPlanType;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\WorkoutPlanRepository;
@@ -20,8 +22,8 @@ class WorkoutPlan
     #[ORM\Column(length: 255)]
     private ?string $titles = null;
 
-    #[ORM\Column(enumType: WorkoutPlanType::class)]
-    private WorkoutPlanType $level;
+    #[ORM\Column(enumType: WorkoutLevel::class)]
+    private WorkoutLevel $level;
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
@@ -31,6 +33,9 @@ class WorkoutPlan
      */
     #[ORM\OneToMany(targetEntity: Exercice::class, mappedBy: 'workoutplan')]
     private Collection $exercice;
+
+    #[ORM\Column(type: 'string', enumType: GoalType::class)]
+    private GoalType $type;
 
     public function __construct()
     {
@@ -53,12 +58,12 @@ class WorkoutPlan
         return $this;
     }
 
-    public function getLevel(): WorkoutPlanType
+    public function getLevel(): WorkoutLevel
     {
         return $this->level;
     }
 
-    public function setLevel(WorkoutPlanType $level): static
+    public function setLevel(WorkoutLevel $level): static
     {
         $this->level = $level;
         return $this;
@@ -103,6 +108,17 @@ class WorkoutPlan
             }
         }
 
+        return $this;
+    }
+
+    public function getType(): ?GoalType
+    {
+        return $this->type;
+    }
+
+    public function setType(GoalType $type): self
+    {
+        $this->type = $type;
         return $this;
     }
 }

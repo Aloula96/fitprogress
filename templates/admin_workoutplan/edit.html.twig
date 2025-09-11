@@ -1,0 +1,16 @@
+{% extends 'baseAdmin.html.twig' %} {% block title %}Edit Workout Plan{%
+endblock %} {% block body %}
+<div class="container mt-4">
+    <h1>Edit Workout Plan #{{ plan.id }}</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-success mt-3">💾 Update</button>
+    <a
+        href="{{ path('admin_workoutplan_index') }}"
+        class="btn btn-secondary mt-3"
+        >⬅ Back</a
+    >
+    {{ form_end(form) }}
+</div>
+{% endblock %}

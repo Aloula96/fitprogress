@@ -1,0 +1,26 @@
+{% extends 'baseAdmin.html.twig' %} {% block title %}New Workout Plan{% endblock
+%} {% block body %}
+<div class="container">
+    <h1>Create New Workout Plan</h1>
+
+    {{ form_start(form) }}
+    <div class="form-group">
+        {{ form_row(form.titles) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.level) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.description) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.type) }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a href="{{ path('admin_workoutplan_index') }}" class="btn btn-secondary"
+        >Back to list</a
+    >
+    {{ form_end(form) }}
+</div>
+{% endblock %}

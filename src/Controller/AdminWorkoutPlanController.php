@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\Controller;
 
-
 use App\Entity\WorkoutPlan;
-use App\Enum\WorkoutPlanType;
+use App\Form\AdminWorkoutPlanType; // Change this import
+// use App\Enum\WorkoutPlanType; // Remove this line
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +19,7 @@ class AdminWorkoutPlanController extends AbstractController
     {
         $plans = $em->getRepository(WorkoutPlan::class)->findAll();
 
-        return $this->render('admin/workoutplan/index.html.twig', [
+        return $this->render('admin_workoutplan/index.html.twig', [  // Changed this line
             'plans' => $plans
         ]);
     }
@@ -29,7 +28,7 @@ class AdminWorkoutPlanController extends AbstractController
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $plan = new WorkoutPlan();
-        $form = $this->createForm(WorkoutPlanType::class, $plan);
+        $form = $this->createForm(AdminWorkoutPlanType::class, $plan);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -40,7 +39,7 @@ class AdminWorkoutPlanController extends AbstractController
             return $this->redirectToRoute('admin_workoutplan_index');
         }
 
-        return $this->render('admin/workoutplan/new.html.twig', [
+        return $this->render('admin_workoutplan/new.html.twig', [  // Changed this line
             'form' => $form->createView()
         ]);
     }
@@ -48,7 +47,7 @@ class AdminWorkoutPlanController extends AbstractController
     #[Route('/{id}/edit', name: 'admin_workoutplan_edit', methods: ['GET', 'POST'])]
     public function edit(WorkoutPlan $plan, Request $request, EntityManagerInterface $em): Response
     {
-        $form = $this->createForm(WorkoutPlanType::class, $plan);
+        $form = $this->createForm(AdminWorkoutPlanType::class, $plan);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

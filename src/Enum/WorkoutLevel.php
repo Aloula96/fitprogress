@@ -2,7 +2,7 @@
 
 namespace App\Enum;
 
-enum WorkoutPlanType: string
+enum WorkoutLevel: string
 {
     case BEGINNER = 'beginner';
     case INTERMEDIATE = 'intermediate';
