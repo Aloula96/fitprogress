@@ -17,12 +17,11 @@ class Goal
     #[ORM\Column]
     private ?int $id = null;
 
-    // ✅ Keep only the enum for Goal type
+
     #[ORM\Column(enumType: GoalType::class)]
     private ?GoalType $type = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $updatedAt = null;
+
 
     #[ORM\Column]
     private ?float $targetWeight = null;
@@ -76,16 +75,6 @@ class Goal
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): static
-    {
-        $this->updatedAt = $updatedAt;
-        return $this;
-    }
 
     public function getTargetWeight(): ?float
     {

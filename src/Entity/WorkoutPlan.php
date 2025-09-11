@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\WorkoutPlanRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Enum\WorkoutPlanType;
 use Doctrine\ORM\Mapping as ORM;
-use App\Enum\WorkoutLevel;
+use App\Repository\WorkoutPlanRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 #[ORM\Entity(repositoryClass: WorkoutPlanRepository::class)]
 class WorkoutPlan
@@ -19,8 +20,8 @@ class WorkoutPlan
     #[ORM\Column(length: 255)]
     private ?string $titles = null;
 
-    #[ORM\Column(enumType: WorkoutLevel::class)]
-    private WorkoutLevel $level;
+    #[ORM\Column(enumType: WorkoutPlanType::class)]
+    private WorkoutPlanType $level;
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
@@ -52,12 +53,12 @@ class WorkoutPlan
         return $this;
     }
 
-    public function getLevel(): WorkoutLevel
+    public function getLevel(): WorkoutPlanType
     {
         return $this->level;
     }
 
-    public function setLevel(WorkoutLevel $level): static
+    public function setLevel(WorkoutPlanType $level): static
     {
         $this->level = $level;
         return $this;

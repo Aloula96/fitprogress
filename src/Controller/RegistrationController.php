@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+
 use App\Entity\User;
 use App\Entity\BodyWeight;
 use App\Form\RegistrationFormType;
+use App\Repository\GoalRepository;
 use App\Repository\UserRepository;
 use App\Security\AppCustomAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -71,13 +73,16 @@ class RegistrationController extends AbstractController
     }
     #[Route('/user', name: 'app_user')]
 
-    public function show(Request $request, EntityManagerInterface $em): Response
+    public function show(Request $request, EntityManagerInterface $em, GoalRepository $goalRepository): Response
     {
+        /** @var User $goal */
         $user = $this->getUser();
 
         if (!$user) {
             throw $this->createAccessDeniedException('Tu dois être connecté pour voir ton profil.');
         }
+
+        $goal = $goalRepository->findOneBy(['user' => $user]);
 
         // Vérifie si un nouveau poids a été soumis
         if ($request->isMethod('POST')) {
@@ -99,12 +104,14 @@ class RegistrationController extends AbstractController
         // Récupérer tous les poids enregistrés
         $weights = $em->getRepository(BodyWeight::class)->findBy(
             ['user' => $user],
-            ['recordedAt' => 'ASC']
+            ['recordedAt' => 'ASC'],
         );
+
 
         return $this->render('registration/show.html.twig', [
             'user' => $user,
             'weights' => $weights,
+            'goal' => $goal
         ]);
     }
 }
