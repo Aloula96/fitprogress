@@ -15,11 +15,26 @@ block stylesheets %}
         <div class="profile-section">
 
             <h2>Profil de {{ user.name }}</h2>
-
+            
             <p><strong>Email :</strong> {{ user.email }}</p>
             <p><strong>Âge :</strong> {{ user.age }}</p>
             <p><strong>Taille :</strong> {{ user.height }} cm</p>
             <p><strong>Poids initial :</strong> {{ user.weight }} kg</p>
+ {% if goal is not null %}
+    <p><strong>Poids objectif :</strong> {{ goal.targetWeight }} kg</p>
+{% else %}
+    <p>Aucun objectif défini pour l’instant.</p>
+    <a href="{{ path('goal') }}">Ajouter un objectif !</a>
+{% endif %}
+{% if workoutPlan is not null %}
+    <p>
+        <strong>Plan d'entraînement :</strong> {{ workoutPlan.titles }}
+        <a href="{{ path('workout_plan_show') }}" class="btn btn-primary btn-sm">Voir mon plan</a>
+    </p>
+{% else %}
+    <p>En attente du coach</p>
+
+{% endif %}
 
             <hr />
 
@@ -39,6 +54,7 @@ block stylesheets %}
 
             <hr />
             {% if goal is not null %}
+                <h3>Objectif Actuel</h3>
               <p>{{ goal.type.value }}</p>
             {% else %}
                 <p>Aucun objectif défini pour l’instant.</p>
@@ -53,8 +69,8 @@ block stylesheets %}
             {% endif %}
             <hr /> #}
 
-            
-            <h3>Ajouter un nouveau poids</h3>
+
+            <h3>Ajouter vos poids actuels ci-dessous</h3>
             <form method="post">
                 <input
                     type="number"
@@ -66,6 +82,7 @@ block stylesheets %}
                 <button type="submit">Enregistrer</button>
             </form>
         </div>
+
 
         {% for message in app.flashes('success') %}
         <div style="color: green">{{ message }}</div>

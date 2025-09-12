@@ -56,8 +56,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user_read'])]
     private ?float $weight = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Goal $Goal = null;
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: Goal::class)]
+    private ?Goal $goal = null;
 
     public function __construct()
     {
@@ -225,12 +225,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getGoal(): ?Goal
     {
-        return $this->Goal;
+        return $this->goal;
     }
 
-    public function setGoal(?Goal $Goal): static
+    public function setGoal(?Goal $goal): static
     {
-        $this->Goal = $Goal;
+        $this->goal = $goal;
 
         return $this;
     }

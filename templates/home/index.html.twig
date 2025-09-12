@@ -19,7 +19,11 @@
             Suivez vos progrès en matière de remise en forme ; atteignez vos
             objectifs de remise en forme et suivez vos progrès
         </p>
-        <a href="#" class="hero-btn">Rejoignez-nous</a>
+        {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a href="{{ path('app_register') }}" class="hero-btn">Rejoignez-nous</a>
+        {% else %}
+        <a href="{{ path('app_profile') }}" class="hero-btn">Mon Profil</a>
+        {% endif %}
     </div>
 </section>
 
@@ -103,7 +107,9 @@
             />
         </div>
     </div>
+    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
     <a href="{{ path('app_register') }}" class="btn btn-signup">S'inscrire</a>
+    {% endif %}
 </section>
 
 {# Les faux avis #}

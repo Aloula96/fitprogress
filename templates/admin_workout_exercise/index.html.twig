@@ -1,0 +1,40 @@
+{% extends 'baseAdmin.html.twig' %} {% block title %}
+{{ workoutPlan ? 'Exercises for ' ~ workoutPlan.titles : 'Exercises' }}
+{% endblock %} {% block body %}
+<div class="container">
+    <h1>
+        {{ workoutPlan ? 'Exercises for ' ~ workoutPlan.titles : 'Exercises' }}
+    </h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Sets</th>
+                <th>Reps</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {# {% if exercises|length > 0 %} {% for exercise in exercises %} #}
+            <tr>
+                <td>{{ exercise.owner.titles }}</td>
+                {#
+                <td>{{ exercise.sets }}</td>
+                <td>{{ exercise.reps }}</td>
+                <td>{{ exercise.description }}</td>
+                #}
+            </tr>
+            {# {% endfor %} {% else %}
+            <tr>
+                <td colspan="4" class="text-center">No exercises found</td>
+            </tr>
+            {% endif %} #}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_workoutplan') }}" class="btn btn-secondary mt-3">
+        <i class="fas fa-arrow-left"></i> Back to Workout Plans
+    </a>
+</div>
+{% endblock %}

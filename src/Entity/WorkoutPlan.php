@@ -31,15 +31,15 @@ class WorkoutPlan
     /**
      * @var Collection<int, Exercice>
      */
-    #[ORM\OneToMany(targetEntity: Exercice::class, mappedBy: 'workoutplan')]
-    private Collection $exercice;
+    #[ORM\OneToMany(mappedBy: 'workoutPlan', targetEntity: Exercice::class, orphanRemoval: true)]
+    private Collection $exercises;
 
     #[ORM\Column(type: 'string', enumType: GoalType::class)]
     private GoalType $type;
 
     public function __construct()
     {
-        $this->exercice = new ArrayCollection();
+        $this->exercises = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -84,27 +84,27 @@ class WorkoutPlan
     /**
      * @return Collection<int, Exercice>
      */
-    public function getExercice(): Collection
+    public function getExercises(): Collection
     {
-        return $this->exercice;
+        return $this->exercises;
     }
 
-    public function addExercice(Exercice $exercice): static
+    public function addExercise(Exercice $exercise): self
     {
-        if (!$this->exercice->contains($exercice)) {
-            $this->exercice->add($exercice);
-            $exercice->setWorkoutplan($this);
+        if (!$this->exercises->contains($exercise)) {
+            $this->exercises->add($exercise);
+            $exercise->setWorkoutPlan($this);
         }
 
         return $this;
     }
 
-    public function removeExercice(Exercice $exercice): static
+    public function removeExercise(Exercice $exercise): self
     {
-        if ($this->exercice->removeElement($exercice)) {
-            // set the owning side to null (unless already changed)
-            if ($exercice->getWorkoutplan() === $this) {
-                $exercice->setWorkoutplan(null);
+        if ($this->exercises->removeElement($exercise)) {
+            // Set the owning side to null
+            if ($exercise->getWorkoutPlan() === $this) {
+                $exercise->setWorkoutPlan(null);
             }
         }
 

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         {# Logo (navbar-brand) #}
-        <a class="navbar-brand" href="{{ path('app_home') }}">
+        <a class="navbar-brand" href="{{ path('app_home_admin') }}">
             <img
                 src="{{ asset('assets/images/logo.svg') }}"
                 alt="FitProgress Logo"
@@ -26,38 +26,57 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_home') }}"
-                        >Accueil</a
+                    <a class="nav-link" href="{{ path('app_home_admin') }}"
+                        >Dashboard</a
                     >
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">À propos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_user') }}"
-                        >Mon profile</a
+
+                {# Workout Plans Dropdown #}
+                <li class="nav-item dropdown">
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        id="workoutDropdown"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
                     >
+                        <i class="fas fa-dumbbell"></i> Workout Plans
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="workoutDropdown">
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                href="{{ path('admin_workoutplan') }}"
+                            >
+                                <i class="fas fa-check"></i> With Plans
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                href="{{ path('admin_goal') }}"
+                            >
+                                <i class="fas fa-times"></i> Without Plans
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-chart-line"></i> Statistics
+                    </a>
                 </li>
             </ul>
 
-            {# Auth section alignée à droite #}
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                {% if app.user %}
+            {# User Menu #}
+            <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_logout') }}"
-                        >Logout</a
-                    >
+                    <a class="nav-link" href="{{ path('app_logout') }}">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
                 </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_login') }}"
-                        >Se connecter</a
-                    >
-                </li>
-                {% endif %}
             </ul>
         </div>
     </div>

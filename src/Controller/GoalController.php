@@ -34,8 +34,18 @@ class GoalController extends AbstractController
             $bmi = 22;
             $idealWeight = $bmi * ($height ** 2);
 
+
+
+
+
+            $goal = $goalRepository->findOneBy(['user' => $user]);
+            if ($goal === null) {
+                $goal = new Goal();
+            } else {
+                $goal->setWorkoutPlan(null);
+            }
+
             // Créer un objectif
-            $goal = new Goal();
             $goal->setType(GoalType::from($selectedGoal));
             $goal->setUser($user);
             $goal->setCreatedAt(new \DateTimeImmutable());
@@ -47,16 +57,11 @@ class GoalController extends AbstractController
                 $goal->setTargetWeight(round($idealWeight, 1));
             }
 
-            $goal = $goalRepository->findOneBy(['user' => $user]);
-            if ($goal !== null) {
-                $em->remove($goal);
-            }
-
             $em->persist($goal);
             $em->flush();
 
             $this->addFlash('success', 'Ton objectif a été enregistré !');
-            return $this->redirectToRoute('app_user'); // change to your profile/home page
+            return $this->redirectToRoute('app_profile'); // change to your profile/home page
         }
 
         return $this->render('goal/index.html.twig', [

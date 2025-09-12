@@ -36,35 +36,25 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contact</a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_user') }}"
-                        >Mon profile</a
-                    >
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_user') }}"
+                    <a class="nav-link" href="{{ path('app_profile') }}"
                         >Mon profile</a
                     >
                 </li>
                 <li>
-                    <a
-                        href="{{ path('admin_workoutplan_index') }}"
-                        class="nav-link"
-                    >
+                    <a href="{{ path('workout_plan_show') }}" class="nav-link">
                         <i class="fas fa-dumbbell"></i> Workout Plans
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href="{{ path('admin_workoutplan_new') }}"
-                        class="nav-link"
-                    >
-                        <i class="fas fa-plus"></i> New Workout Plan
                     </a>
                 </li>
             </ul>
 
-            {# Auth section alignée à droite #}
+            {#
+            <div class="d-flex align-items-center">
+                <i class="fas fa-user-circle me-2"></i>
+                <span>{{ app.user.name }}</span>
+            </div>
+            #} {# Auth section alignée à droite #}
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 {% if app.user %}
                 <li class="nav-item">

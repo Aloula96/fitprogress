@@ -1,65 +1,92 @@
-{% extends 'baseAdmin.html.twig' %} {% block title %}Workout Plans
-Administration{% endblock %} {% block body %}
+{% extends 'baseAdmin.html.twig' %} {% block title %}Workout Plans Management{%
+endblock %} {% block body %}
 <div class="container">
-    <h1>Workout Plans</h1>
-
-    <a href="{{ path('admin_workoutplan_new') }}" class="btn btn-primary mb-3">
-        <i class="fas fa-plus"></i> Create New Plan
-    </a>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Level</th>
-                <th>Type</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for plan in plans %}
-            <tr>
-                <td>{{ plan.titles }}</td>
-                <td>{{ plan.level.value }}</td>
-                <td>{{ plan.type.value }}</td>
-                <td>
-                    <a
-                        href="{{
-                            path('admin_workoutplan_edit', { id: plan.id })
-                        }}"
-                        class="btn btn-sm btn-info"
-                    >
-                        <i class="fas fa-edit"></i> Edit
-                    </a>
-
-                    <form
-                        action="{{
-                            path('admin_workoutplan_delete', { id: plan.id })
-                        }}"
-                        method="post"
-                        class="d-inline"
-                    >
-                        <input
-                            type="hidden"
-                            name="_token"
-                            value="{{ csrf_token('delete' ~ plan.id) }}"
-                        />
-                        <button
-                            type="submit"
-                            class="btn btn-sm btn-danger"
-                            onclick="return confirm('Are you sure?')"
-                        >
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            {% else %}
-            <tr>
-                <td colspan="4">No workout plans found</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="row mb-4">
+        <div class="col">
+            {% if goalsWithoutPlans|length > 0 %}
+            <h2 class="mb-3">Goals Needing Workout Plans</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Goal Type</th>
+                        <th>Target Weight</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for goal in goalsWithoutPlans %}
+                    <tr>
+                        <td>{{ goal.user.email }}</td>
+                        <td>{{ goal.type.value }}</td>
+                        <td>{{ goal.targetWeight }} kg</td>
+                        <td>{{ goal.createdAt|date('Y-m-d') }}</td>
+                        <td>
+                            <a
+                                href="{{
+                                    path('admin_workoutplan_create', {
+                                        id: goal.id
+                                    })
+                                }}"
+                                class="btn btn-primary btn-sm"
+                            >
+                                <i class="fas fa-plus"></i> Create Workout Plan
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %} {% if goalsWithPlans|length > 0 %}
+            <h2 class="mb-3 mt-4">Goals With Workout Plans</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Goal Type</th>
+                        <th>Target Weight</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for goal in goalsWithPlans %}
+                    <tr>
+                        <td>{{ goal.user.email }}</td>
+                        <td>{{ goal.type.value }}</td>
+                        <td>{{ goal.targetWeight }} kg</td>
+                        <td>{{ goal.createdAt|date('Y-m-d') }}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a
+                                    href="{{
+                                        path('admin_workoutplan_edit', {
+                                            id: goal.workoutPlan.id
+                                        })
+                                    }}"
+                                    class="btn btn-secondary btn-sm"
+                                >
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <a
+                                    href="{{
+                                        path('admin_workout_exercise', {
+                                            id: goal.workoutPlan.id
+                                        })
+                                    }}"
+                                    class="btn btn-info btn-sm"
+                                >
+                                    <i class="fas fa-dumbbell"></i> Exercises
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}

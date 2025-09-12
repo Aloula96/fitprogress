@@ -38,7 +38,8 @@ class Goal
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: WorkoutPlan::class)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?WorkoutPlan $workoutPlan = null;
 
 
@@ -136,7 +137,7 @@ class Goal
         return $this->workoutPlan;
     }
 
-    public function setWorkoutplan(?WorkoutPlan $workoutPlan): static
+    public function setWorkoutPlan(?WorkoutPlan $workoutPlan): self
     {
         $this->workoutPlan = $workoutPlan;
         return $this;

@@ -1,0 +1,46 @@
+{# filepath: c:\Users\aloul\Documents\5.Projet
+final\fitprogress\templates\admin_goal\index.html.twig #} {% extends
+'baseAdmin.html.twig' %} {% block title %}Goals Administration{% endblock %} {%
+block body %}
+<div class="container">
+    <h1>Goals Without Workout Plans</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Goal Type</th>
+                <th>Target Weight</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for goal in goalWithoutPlan %}
+            <tr>
+                <td>{{ goal.user.email }}</td>
+                <td>{{ goal.type.value }}</td>
+                <td>{{ goal.targetWeight }} kg</td>
+                <td>{{ goal.createdAt|date('Y-m-d') }}</td>
+                <td>
+                    <a
+                        href="{{
+                            path('admin_workoutplan_new', { id: goal.id })
+                        }}"
+                        class="btn btn-primary btn-sm"
+                    >
+                        <i class="fas fa-plus"></i> Create Plan
+                    </a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" class="text-center">
+                    No goals without workout plans found
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
