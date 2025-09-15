@@ -71,7 +71,7 @@ endblock %} {% block body %}
                                 </a>
                                 <a
                                     href="{{
-                                        path('admin_workout_exercise', {
+                                        path('admin_workout_exercices', {
                                             id: goal.workoutPlan.id
                                         })
                                     }}"
@@ -79,6 +79,24 @@ endblock %} {% block body %}
                                 >
                                     <i class="fas fa-dumbbell"></i> Exercises
                                 </a>
+                                <form
+                                    method="post"
+                                    action="{{
+                                        path('admin_workoutplan_delete', {
+                                            id: goal.workoutPlan.id
+                                        })
+                                    }}"
+                                    onsubmit="return confirm('Êtes vous sûrs?');"
+                                >
+                                    <input
+                                        type="hidden"
+                                        name="_token"
+                                        value="{{ csrf_token('delete' ~ goal.workoutPlan.id) }}"
+                                    />
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>

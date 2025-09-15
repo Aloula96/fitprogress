@@ -31,7 +31,6 @@ final class AdminGoalController extends AbstractController
     public function createWorkoutPlan(Goal $goal, EntityManagerInterface $em): Response
     {
         $workoutPlan = new WorkoutPlan();
-        $workoutPlan->setTitles('Plan pour ' . $goal->getUser()->getEmail());
         $workoutPlan->setType($goal->getType());
 
 

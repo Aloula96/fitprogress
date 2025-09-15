@@ -19,8 +19,7 @@ class WorkoutPlan
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $titles = null;
+
 
     #[ORM\Column(enumType: WorkoutLevel::class)]
     private WorkoutLevel $level;
@@ -32,14 +31,14 @@ class WorkoutPlan
      * @var Collection<int, Exercice>
      */
     #[ORM\OneToMany(mappedBy: 'workoutPlan', targetEntity: Exercice::class, orphanRemoval: true)]
-    private Collection $exercises;
+    private Collection $exercices;
 
     #[ORM\Column(type: 'string', enumType: GoalType::class)]
     private GoalType $type;
 
     public function __construct()
     {
-        $this->exercises = new ArrayCollection();
+        $this->exercices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -47,16 +46,9 @@ class WorkoutPlan
         return $this->id;
     }
 
-    public function getTitles(): ?string
-    {
-        return $this->titles;
-    }
 
-    public function setTitles(string $titles): static
-    {
-        $this->titles = $titles;
-        return $this;
-    }
+
+
 
     public function getLevel(): WorkoutLevel
     {
@@ -84,27 +76,27 @@ class WorkoutPlan
     /**
      * @return Collection<int, Exercice>
      */
-    public function getExercises(): Collection
+    public function getExercices(): Collection
     {
-        return $this->exercises;
+        return $this->exercices;
     }
 
-    public function addExercise(Exercice $exercise): self
+    public function addExercice(Exercice $exercice): self
     {
-        if (!$this->exercises->contains($exercise)) {
-            $this->exercises->add($exercise);
-            $exercise->setWorkoutPlan($this);
+        if (!$this->exercices->contains($exercice)) {
+            $this->exercices->add($exercice);
+            $exercice->setWorkoutPlan($this);
         }
 
         return $this;
     }
 
-    public function removeExercise(Exercice $exercise): self
+    public function removeExercice(Exercice $exercice): self
     {
-        if ($this->exercises->removeElement($exercise)) {
+        if ($this->exercices->removeElement($exercice)) {
             // Set the owning side to null
-            if ($exercise->getWorkoutPlan() === $this) {
-                $exercise->setWorkoutPlan(null);
+            if ($exercice->getWorkoutPlan() === $this) {
+                $exercice->setWorkoutPlan(null);
             }
         }
 

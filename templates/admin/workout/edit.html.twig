@@ -1,0 +1,43 @@
+{% extends 'baseAdmin.html.twig' %} {% block title %}Edit Exercice{% endblock %}
+{% block body %}
+<div class="container">
+    <h1>Edit Exercice</h1>
+
+    {{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_row(form.name) }}
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.sets) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.reps) }}
+        </div>
+    </div>
+    <div class="mb-3">
+        {{ form_row(form.description) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(form.image) }}
+        {% if exercice.image %}
+        <img
+            src="{{ asset('images/exercices/' ~ exercice.image) }}"
+            alt="Current image"
+            class="img-thumbnail mt-2"
+            style="max-height: 100px"
+        />
+        {% endif %}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a
+        href="{{
+            path('admin_workout_exercices', { id: exercice.workoutPlan.id })
+        }}"
+        class="btn btn-secondary"
+        >Cancel</a
+    >
+    {{ form_end(form) }}
+</div>
+{% endblock %}

@@ -31,8 +31,11 @@ class Exercice
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     #[ORM\ManyToOne(inversedBy: 'exercice')]
-    private ?Workoutplan $workoutplan = null;
+    private ?WorkoutPlan $workoutPlan = null;
 
     public function getId(): ?int
     {
@@ -111,14 +114,25 @@ class Exercice
         return $this;
     }
 
-    public function getWorkoutplan(): ?Workoutplan
+    public function getImage(): ?string
     {
-        return $this->workoutplan;
+        return $this->image;
     }
 
-    public function setWorkoutplan(?Workoutplan $workoutplan): static
+    public function setImage(?string $image): self
     {
-        $this->workoutplan = $workoutplan;
+        $this->image = $image;
+        return $this;
+    }
+
+    public function getWorkoutPlan(): ?WorkoutPlan
+    {
+        return $this->workoutPlan;
+    }
+
+    public function setWorkoutPlan(?WorkoutPlan $workoutPlan): static
+    {
+        $this->workoutPlan = $workoutPlan;
 
         return $this;
     }

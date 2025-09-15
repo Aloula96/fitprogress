@@ -2,17 +2,19 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\WorkoutPlan;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ExcerciseController extends AbstractController
 {
-    #[Route('/excercise', name: 'app_excercise')]
-    public function index(): Response
+    #[Route('/{id}/exercices', name: 'workout_exercices')]
+    public function index(WorkoutPlan $workoutPlan): Response
     {
-        return $this->render('excercise/index.html.twig', [
-            'controller_name' => 'ExcerciseController',
+        return $this->render('excercise/exercices.html.twig', [
+            'workoutPlan' => $workoutPlan,
+            'exercices' => $workoutPlan->getExercices()
         ]);
     }
 }

@@ -1,0 +1,92 @@
+{% extends 'baseAdmin.html.twig' %} {% block title %}Exercices - {% endblock %}
+{% block body %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Exercices</h1>
+        <a
+            href="{{
+                path('admin_workout_exercice_new', { id: workoutPlan.id })
+            }}"
+            class="btn btn-primary"
+        >
+            <i class="fas fa-plus"></i> Add Exercice
+        </a>
+    </div>
+
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Sets</th>
+                    <th>Reps</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for exercice in exercices %}
+                <tr>
+                    <td>{{ exercice.name }}</td>
+                    <td>{{ exercice.sets }}</td>
+                    <td>{{ exercice.reps }}</td>
+                    <td>{{ exercice.description }}</td>
+                    <td>
+                        {% if exercice.image %}
+                        <img
+                            src="{{ asset('images/exercices/' ~ exercice.image) }}"
+                            alt="{{ exercice.name }}"
+                            class="img-thumbnail"
+                            style="max-height: 50px"
+                        />
+                        {% else %}
+                        <span class="text-muted">No image</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a
+                                href="{{
+                                    path('admin_workout_exercice_edit', {
+                                        id: exercice.id
+                                    })
+                                }}"
+                                class="btn btn-sm btn-info"
+                            >
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a
+                                href="{{
+                                    path('admin_workout_exercice_delete', {
+                                        id: exercice.id
+                                    })
+                                }}"
+                                class="btn btn-sm btn-danger"
+                                onclick="return confirm('Are you sure you want to delete this exercice?')"
+                            >
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center">No exercices found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <a href="{{ path('admin_workoutplan') }}" class="btn btn-secondary mt-3">
+        <i class="fas fa-arrow-left"></i> Back to Workout Plans
+    </a>
+</div>
+{% endblock %}

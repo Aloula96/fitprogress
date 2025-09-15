@@ -8,39 +8,18 @@ endblock %} {% block body %}
             <h2 class="card-title">{{ workoutPlan.titles }}</h2>
             <p class="card-text">{{ workoutPlan.description }}</p>
 
-            <div class="workout-info">
+            <div class="workout-info mb-3">
                 <p><strong>Niveau :</strong> {{ workoutPlan.level.value }}</p>
                 <p><strong>Type :</strong> {{ workoutPlan.type.value }}</p>
             </div>
-        </div>
-    </div>
 
-    {% if workoutPlan.exercises is defined and workoutPlan.exercises is not
-    empty %}
-    <div class="exercises-section">
-        <h3>Mes Exercices</h3>
-        <div class="row">
-            {% for exercise in workoutPlan.exercises %}
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">{{ exercise.name }}</h4>
-                        <p class="card-text">{{ exercise.description }}</p>
-                        <ul class="list-unstyled">
-                            <li>
-                                <strong>Séries :</strong> {{ exercise.sets }}
-                            </li>
-                            <li>
-                                <strong>Répétitions :</strong>
-                                {{ exercise.reps }}
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+            <a
+                href="{{ path('workout_exercices', { id: workoutPlan.id }) }}"
+                class="btn btn-primary"
+            >
+                <i class="fas fa-dumbbell"></i> Voir les Exercices
+            </a>
         </div>
     </div>
-    {% endif %}
 </div>
 {% endblock %}

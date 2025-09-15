@@ -1,0 +1,40 @@
+{% extends 'baseAdmin.html.twig' %} {% block title %}Add Exercise - s{% endblock
+%} {% block body %}
+<div class="container">
+    <h1>Add Exercice</h1>
+
+    {{ form_start(form, {'attr': {'class': 'mt-4'}}) }}
+    <div class="mb-3">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+        {{ form_errors(form.name) }}
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            {{ form_label(form.sets) }}
+            {{ form_widget(form.sets) }}
+            {{ form_errors(form.sets) }}
+        </div>
+        <div class="col-md-6 mb-3">
+            {{ form_label(form.reps) }}
+            {{ form_widget(form.reps) }}
+            {{ form_errors(form.reps) }}
+        </div>
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description) }}
+        {{ form_errors(form.description) }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Exercise</button>
+    <a
+        href="{{ path('admin_workout_exercice_new', { id: workoutPlan.id }) }}"
+        class="btn btn-secondary"
+        >Cancel</a
+    >
+    {{ form_end(form) }}
+</div>
+{% endblock %}
