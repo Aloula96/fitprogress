@@ -16,56 +16,64 @@ use Symfony\Bundle\SecurityBundle\Security;
 class GoalController extends AbstractController
 {
     #[Route('/goal', name: 'goal', methods: ['GET', 'POST'])]
-    public function target(Request $request, EntityManagerInterface $em, Security $security, GoalRepository $goalRepository): Response
-    {
+    public function target(
+        Request $request,
+        EntityManagerInterface $em,
+        Security $security,
+        GoalRepository $goalRepository
+    ): Response {
         /** @var User $user */
         $user = $security->getUser();
+
         if (!$user) {
             throw $this->createAccessDeniedException('Tu dois être connecté pour définir un objectif.');
+        }
+
+        // ✅ If the user already has a goal → redirect to Dashboard
+        $goal = $goalRepository->findOneBy(['user' => $user]);
+        if ($goal && $request->isMethod('GET')) {
+            return $this->redirectToRoute('app_dashboard');
         }
 
         if ($request->isMethod('POST')) {
             $selectedGoal = $request->request->get('goal');
             $customTarget = $request->request->get('target_weight');
 
-            // calcution of bmi 
-
+            // Simple BMI calculation for default target
             $height = $user->getHeight() / 100;
-            $bmi = 22;
+            $bmi = 22; // "ideal" BMI
             $idealWeight = $bmi * ($height ** 2);
 
-
-
-
-
-            $goal = $goalRepository->findOneBy(['user' => $user]);
-            if ($goal === null) {
+            if (!$goal) {
                 $goal = new Goal();
+                $goal->setUser($user);
+                $goal->setCreatedAt(new \DateTimeImmutable());
+                $em->persist($goal);
             } else {
+                // Reset workout plan if user changes goal
                 $goal->setWorkoutPlan(null);
             }
 
-            // Créer un objectif
             $goal->setType(GoalType::from($selectedGoal));
-            $goal->setUser($user);
-            $goal->setCreatedAt(new \DateTimeImmutable());
 
-            // Poids cible
+            // Target weight
             if (!empty($customTarget)) {
-                $goal->setTargetWeight((float)$customTarget);
+                $goal->setTargetWeight((float) $customTarget);
             } else {
                 $goal->setTargetWeight(round($idealWeight, 1));
             }
 
-            $em->persist($goal);
             $em->flush();
 
-            $this->addFlash('success', 'Ton objectif a été enregistré !');
-            return $this->redirectToRoute('app_profile'); // change to your profile/home page
+            $this->addFlash('success', 'Ton objectif a été enregistré ✅');
+
+            // ✅ After goal → go to workout plan
+            return $this->redirectToRoute('workout_plan_show');
         }
 
         return $this->render('goal/index.html.twig', [
             'user' => $user,
+            'goal' => $goal,
         ]);
     }
 }

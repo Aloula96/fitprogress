@@ -1,34 +1,38 @@
 {% extends 'baseAdmin.html.twig' %} {% block title %}Hello
-HomeAdminController!{% endblock %} {% block body %}
-<div class="container mt-4">
-    <h1>Bienvenue dans le tableau de bord administrateur</h1>
-    <p>
-        Utilisez le menu de navigation pour gérer les utilisateurs, les
-        objectifs et les plans d'entraînement.
-    </p>
-</div>
-<div class="dashboard-cards">
+HomeAdminController!{% endblock %} {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('styles/admin.css') }}" />
+{% endblock %}{% block body %}
+<div class="container">
+    <div class="dashboard-header">
+        <h1>Bienvenue dans le tableau de bord administrateur</h1>
+        <p>
+            Utilisez le menu de navigation pour gérer les utilisateurs, les
+            objectifs et les plans d'entraînement.
+        </p>
+    </div>
+    <div class="dashboard-cards">
+        <div class="card">
+            <h3>Utilisateurs</h3>
+            <p>Gérez les utilisateurs de la plateforme.</p>
+            <a href="{{ path('admin_user_index') }}" class="btn btn-primary"
+                >Voir les utilisateurs</a
+            >
+        </div>
+    </div>
     <div class="card">
-        <h3>Utilisateurs</h3>
-        <p>Gérez les utilisateurs de la plateforme.</p>
-        <a href="{{ path('admin_user_index') }}" class="btn btn-primary"
-            >Voir les utilisateurs</a
+        <h3>Objectifs</h3>
+        <p>Gérez les objectifs des utilisateurs.</p>
+        <a href="{{ path('admin_goal') }}" class="btn btn-primary"
+            >Voir les objectifs</a
+        >
+    </div>
+    <div class="card">
+        <h3>Plans d'entraînement</h3>
+        <p>Gérez les plans d'entraînement des utilisateurs.</p>
+        <a href="{{ path('admin_workoutplan') }}" class="btn btn-primary"
+            >Voir les plans d'entraînement</a
         >
     </div>
 </div>
-<div class="card">
-    <h3>Objectifs</h3>
-    <p>Gérez les objectifs des utilisateurs.</p>
-    <a href="{{ path('admin_goal') }}" class="btn btn-primary"
-        >Voir les objectifs</a
-    >
-</div>
-<div class="card">
-    <h3>Plans d'entraînement</h3>
-    <p>Gérez les plans d'entraînement des utilisateurs.</p>
-    <a href="{{ path('admin_workoutplan') }}" class="btn btn-primary"
-        >Voir les plans d'entraînement</a
-    >
-</div>
-
 {% endblock %}

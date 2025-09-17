@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\BodyWeightRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BodyWeightRepository::class)]
 class BodyWeight
@@ -14,9 +15,12 @@ class BodyWeight
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['weight_read'])]
     private ?float $weightValue = null;
 
+
     #[ORM\Column]
+    #[Groups(['weight_read'])]
     private ?\DateTime $recordedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'bodyWeights')]

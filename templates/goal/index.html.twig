@@ -2,15 +2,15 @@
 %} {% block stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('styles/goal.css') }}" />
-{% endblock %} {% block javascripts %} {% block importmap %}
-{{ importmap("app") }}
-{% endblock %}
-
-<script src="{{ asset('js/goal.js') }}"></script>
-
+{% endblock %} {% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('js/imc.js') }}"></script>
 {% endblock %} {% block body %}
-<div class="goal-container">
-    <!-- Back button -->
+<div
+    class="goal-container"
+    data-height="{{ user.height|default(0) }}"
+    data-weight="{{ user.weight|default(0) }}"
+>
     <div class="back-button">
         <a href="{{ path('app_home') }}">
             <span class="back-icon">←</span>
@@ -18,15 +18,21 @@
         </a>
     </div>
 
-    <!-- Title -->
     <h2 class="goal-title">Quel est ton objectif?</h2>
 
-    <!-- Options -->
+    {% for label, messages in app.flashes %} {% for message in messages %}
+    <div class="alert alert-{{ label }}">{{ message }}</div>
+    {% endfor %} {% endfor %}
+
     <form method="post" class="goal-form">
         <div class="goal-options">
-            <!-- Option 1 -->
             <label class="goal-card">
-                <input type="radio" name="goal" value="prise_de_masse" hidden />
+                <input
+                    type="radio"
+                    name="goal"
+                    value="prise_de_masse"
+                    required
+                />
                 <div class="goal-content">
                     <div class="goal-icon">🏋️</div>
                     <h3>Prendre du muscle</h3>
@@ -34,37 +40,52 @@
                 </div>
             </label>
 
-            <!-- Option 2 -->
-            <label class="goal-card">
-                <input type="radio" name="goal" value="perte_de_poids" hidden />
-                <div class="goal-content">
-                    <div class="goal-icon">⚡</div>
-                    <h3>Perdre du poid</h3>
-                    <p>Programme axé sur la perte de poids</p>
-                </div>
-            </label>
-
-            <!-- Option 3 -->
             <label class="goal-card">
                 <input
                     type="radio"
                     name="goal"
-                    value="reprise_du_sport"
-                    hidden
+                    value="perte_de_poids"
+                    required
                 />
                 <div class="goal-content">
                     <div class="goal-icon">⚡</div>
-                    <h3>Maintenir du poid</h3>
+                    <h3>Perdre du poids</h3>
                     <p>Programme axé sur la perte de poids</p>
                 </div>
             </label>
-        </div>
-        <div>
-            <input type="number" name="target_weight" value="70" />
-            <label for="target_weight">Poid cible</label>
+
+            <label class="goal-card">
+                <input type="radio" name="goal" value="maintien" required />
+                <div class="goal-content">
+                    <div class="goal-icon">⚖️</div>
+                    <h3>Maintenir du poids</h3>
+                    <p>Programme axé sur le maintien</p>
+                </div>
+            </label>
         </div>
 
-        <!-- Submit button -->
+        <div class="weight-input">
+            <label for="target_weight">Poids cible</label>
+            <input
+                type="number"
+                id="target_weight"
+                name="target_weight"
+                value="70"
+                min="40"
+                max="200"
+                step="0.1"
+            />
+        </div>
+
+        <div class="imc-display">
+            <p>
+                <strong>IMC actuel :</strong> <span id="current-imc">N/A</span>
+            </p>
+            <p>
+                <strong>Catégorie :</strong> <span id="imc-category">N/A</span>
+            </p>
+        </div>
+
         <button type="submit" class="submit-btn">Valider mon objectif</button>
     </form>
 </div>

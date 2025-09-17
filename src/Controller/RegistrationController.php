@@ -54,21 +54,4 @@ class RegistrationController extends AbstractController
             'form' => $form,
         ]);
     }
-
-    #[Route('/test', name: 'test')]
-    public function imc(
-        userRepository $userRepository
-    ): Response {
-        $user = $userRepository->find(1);
-
-        $userJson = $this->serializer->serialize(
-            $user,
-            'json',
-            ['groups' => 'user_read']
-        );
-        //dd($userJson);
-        return $this->render('registration/test.html.twig', [
-            'userJson' => $userJson,
-        ]);
-    }
 }

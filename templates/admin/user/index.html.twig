@@ -10,7 +10,6 @@ endblock %} {% block body %}
                 <th>Name</th>
                 <th>Height</th>
                 <th>Weight</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -20,11 +19,6 @@ endblock %} {% block body %}
                 <td>{{ user.name }}</td>
                 <td>{{ user.height }} cm</td>
                 <td>{{ user.weight }} kg</td>
-                <td>
-                    <a href="#" class="btn btn-sm btn-info">
-                        <i class="fas fa-eye"></i> View
-                    </a>
-                </td>
             </tr>
             {% else %}
             <tr>

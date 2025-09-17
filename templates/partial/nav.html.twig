@@ -1,71 +1,102 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        {# Logo (navbar-brand) #}
-        <a class="navbar-brand" href="{{ path('app_home') }}">
+    <div class="container">
+        <a class="navbar-brand" href="{{ path('app_dashboard') }}">
             <img
-                src="{{ asset('assets/images/logo.svg') }}"
-                alt="FitProgress Logo"
-                width="150"
+                src="{{ asset('images/logo.svg') }}"
+                alt="FitProgress"
+                height="40"
             />
         </a>
 
-        {# Bouton mobile #}
         <button
             class="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
             aria-expanded="false"
             aria-label="Toggle navigation"
         >
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        {# Menu #}
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                {% if app.user %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_home') }}"
+                    <a
+                        class="nav-link {% if app.request.get('_route') starts with 'app_dashboard' %}active{% endif %}"
+                        href="{{ path('app_dashboard') }}"
+                        >Dashboard</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link {% if app.request.get('_route') == 'goal' %}active{% endif %}"
+                        href="{{ path('goal') }}"
+                        >Objectif</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link {% if app.request.get('_route') == 'workout_plan_show' %}active{% endif %}"
+                        href="{{ path('workout_plan_show') }}"
+                        >Mon Plan</a
+                    >
+                </li>
+                {% if app.user.goal and app.user.goal.workoutPlan %}
+                <li class="nav-item">
+                    <a
+                        class="nav-link {% if app.request.get('_route') == 'workout_exercises' %}active{% endif %}"
+                        href="{{
+                            path('workout_exercises', {
+                                id: app.user.goal.workoutPlan.id
+                            })
+                        }}"
+                    >
+                        Exercices
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_profile') }}" class="btn">
+                        👤 My Profile<br /><small>View or edit profile</small>
+                    </a>
+                </li>
+                {% endif %} {% else %}
+                <li class="nav-item">
+                    <a
+                        class="nav-link {% if app.request.get('_route') == 'app_home' %}active{% endif %}"
+                        href="{{ path('app_home') }}"
                         >Accueil</a
                     >
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">À propos</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_profile') }}"
-                        >Mon profile</a
-                    >
-                </li>
-                <li>
-                    <a href="{{ path('workout_plan_show') }}" class="nav-link">
-                        <i class="fas fa-dumbbell"></i> Workout Plans
-                    </a>
-                </li>
+                {% endif %}
             </ul>
 
-            {#
-            <div class="d-flex align-items-center">
-                <i class="fas fa-user-circle me-2"></i>
-                <span>{{ app.user.name }}</span>
-            </div>
-            #} {# Auth section alignée à droite #}
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav">
                 {% if app.user %}
                 <li class="nav-item">
+                    <span class="nav-link"
+                        >👤 {{ app.user.name ?? app.user.email }}</span
+                    >
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_logout') }}"
-                        >Logout</a
+                        >Déconnexion</a
                     >
                 </li>
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_login') }}"
-                        >Se connecter</a
+                        >Connexion</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_register') }}"
+                        >Inscription</a
                     >
                 </li>
                 {% endif %}

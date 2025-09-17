@@ -5,16 +5,23 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\BodyWeight;
 use App\Repository\GoalRepository;
+use App\Repository\BodyWeightRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class ProfileController extends AbstractController
 {
+    public function __construct(private SerializerInterface $serializer) {}
+
+
     #[Route('/user', name: 'app_profile')]
-    public function show(Request $request, EntityManagerInterface $em, GoalRepository $goalRepository): Response
+    public function show(Request $request, EntityManagerInterface $em, GoalRepository $goalRepository,  BodyWeightRepository $bodyWeightRepository): Response
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -51,6 +58,15 @@ class ProfileController extends AbstractController
             ['user' => $user],
             ['recordedAt' => 'ASC']
         );
+        $stats = $bodyWeightRepository->findBy(['user' => 9]);
+
+
+        $statsJson = $this->serializer->serialize(
+            $stats,
+            'json',
+            ['groups' => 'user_read']
+        );
+
 
         return $this->render('profile/index.html.twig', [
             'user' => $user,
@@ -58,6 +74,27 @@ class ProfileController extends AbstractController
             'goal' => $goal,
             'targetWeight' => $targetWeight,
             'workoutPlan' => $goal ? $goal->getWorkoutPlan() : null,
+            'statsJson' => $statsJson,
+        ]);
+    }
+
+    #[Route('/user/{id}/stats', name: 'app_stats')]
+    public function stats(
+        BodyWeightRepository $bodyWeightRepository,
+        int $id
+    ): Response {
+        $stats = $bodyWeightRepository->findBy(['user' => $id]);
+
+
+        $statsJson = $this->serializer->serialize(
+            $stats,
+            'json',
+            ['groups' => 'weight_read']
+        );
+
+        return $this->render('profile/stats.html.twig', [
+            'statsJson' => $statsJson,
+
         ]);
     }
 }

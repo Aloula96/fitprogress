@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %} {% block title %}My Stats{% endblock %} {% block
+javascripts %}
+{{ parent() }}
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="{{ asset('script/graph.js') }}"></script>
+{% endblock %} {% block body %}
+
+<div id="graph" data-stats="{{ statsJson }}"></div>
+
+{% endblock %}

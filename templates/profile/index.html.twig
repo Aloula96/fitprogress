@@ -1,95 +1,111 @@
-{% extends 'base.html.twig' %} {% block title %}Créer un compte{% endblock %} {%
+{% extends 'base.html.twig' %} {% block title %}Mon Profil{% endblock %} {%
 block stylesheets %}
 <link rel="stylesheet" href="{{ asset('styles/monProfile.css') }}" />
 {% endblock %} {% block body %}
-
-    <a href="{{ path('app_home') }}">
-        <div class="back-button">
-        <span class="back-icon"></span>
+<div class="monProfile-container">
+    <a href="{{ path('app_home') }}" class="back-button">
+        <span class="back-icon">←</span>
         <span>Retourner à l'Accueil</span>
-        </a>
-        <hr />
-        <div class="monProfile-container">
-        <div class="container mt-4">
+    </a>
 
-        <div class="profile-section">
+    <header class="profile-header">
+        <h1>Profil de {{ user.name }}</h1>
+    </header>
 
-            <h2>Profil de {{ user.name }}</h2>
-            
-            <p><strong>Email :</strong> {{ user.email }}</p>
-            <p><strong>Âge :</strong> {{ user.age }}</p>
-            <p><strong>Taille :</strong> {{ user.height }} cm</p>
-            <p><strong>Poids initial :</strong> {{ user.weight }} kg</p>
- {% if goal is not null %}
-    <p><strong>Poids objectif :</strong> {{ goal.targetWeight }} kg</p>
-{% else %}
-    <p>Aucun objectif défini pour l’instant.</p>
-    <a href="{{ path('goal') }}">Ajouter un objectif !</a>
-{% endif %}
-{% if workoutPlan is not null %}
-    <p>
-        <strong>Plan d'entraînement :</strong> {{ workoutPlan.titles }}
-        <a href="{{ path('workout_plan_show') }}" class="btn btn-primary btn-sm">Voir mon plan</a>
-    </p>
-{% else %}
-    <p>En attente du coach</p>
-
-{% endif %}
-
-            <hr />
-
-            <h3>Historique du poids</h3>
-            {% if weights is not empty %}
-            <ul>
-                {% for w in weights %}
-                <li>
-                    {{ w.recordedAt ? w.recordedAt|date('d/m/Y') : '' }}
-                    → {{ w.weightValue }} kg
-                </li>
-                {% endfor %}
-            </ul>
-            {% else %}
-            <p>Aucun poids enregistré pour l’instant.</p>
-            {% endif %}
-
-            <hr />
+    <section class="profile-section">
+        <h2>Informations Personnelles</h2>
+        <ul class="profile-info">
+            <li><strong>Email :</strong> {{ user.email }}</li>
+            <li><strong>Âge :</strong> {{ user.age }} ans</li>
+            <li><strong>Taille :</strong> {{ user.height }} cm</li>
+            <li><strong>Poids initial :</strong> {{ user.weight }} kg</li>
             {% if goal is not null %}
-                <h3>Objectif Actuel</h3>
-              <p>{{ goal.type.value }}</p>
+            <li>
+                <strong>Poids objectif :</strong> {{ goal.targetWeight }} kg
+            </li>
             {% else %}
-                <p>Aucun objectif défini pour l’instant.</p>
-                <a href="{{ path('goal') }}">Ajouter un objectif !</a>
-            {% endif %}
-            {# <h3>Objectif Actuel</h3>
-            {% if goal %}
-            <p><strong>Type d'objectif :</strong> {{ goal.type.value }}</p>
-            <p><strong>Poids cible :</strong> {{ goal.targetWeight }} kg</p>
+            <li>
+                Aucun objectif défini.
+                <a href="{{ path('goal') }}" class="btn btn-secondary"
+                    >Ajouter un objectif</a
+                >
+            </li>
+            {% endif %} {% if workoutPlan is not null %}
+            <li>
+                <a
+                    href="{{ path('workout_plan_show') }}"
+                    class="btn btn-primary"
+                    >Voir mon plan</a
+                >
+            </li>
             {% else %}
-            <p>Aucun objectif défini pour l’instant.</p>
+            <li>En attente d'un plan du coach</li>
             {% endif %}
-            <hr /> #}
+        </ul>
+    </section>
 
+    <section class="weight-history">
+        <h2>Historique du Poids</h2>
+        {% if weights is not empty %}
+        <ul class="weight-list">
+            {% for w in weights %}
+            <li>
+                {{ w.recordedAt ? w.recordedAt|date('d/m/Y') : 'N/A' }} →
+                {{ w.weightValue }} kg
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Aucun poids enregistré pour l’instant.</p>
+        {% endif %}
+        <!-- Graphique -->
+        <a href="{{ path('app_stats', { id: user.id }) }}"> voir les stats </a>
+    </section>
 
-            <h3>Ajouter vos poids actuels ci-dessous</h3>
-            <form method="post">
+    <section class="current-goal">
+        <h2>Objectif Actuel</h2>
+        {% if goal is not null %}
+        <p>{{ goal.type.value }}</p>
+        {% else %}
+        <p>
+            Aucun objectif défini.
+            <a href="{{ path('goal') }}" class="btn btn-secondary"
+                >Ajouter un objectif</a
+            >
+        </p>
+        {% endif %}
+    </section>
+
+    <section class="weight-form">
+        <h2>Ajouter un Poids</h2>
+        <form method="post">
+            <div class="form-group">
+                <label for="weightValue">Poids actuel (kg)</label>
                 <input
                     type="number"
+                    id="weightValue"
                     name="weightValue"
                     step="0.1"
+                    min="0"
                     placeholder="Ex: 67.5"
                     required
+                    aria-describedby="weightHelp"
                 />
-                <button type="submit">Enregistrer</button>
-            </form>
-        </div>
 
+                <small id="weightHelp" class="form-text"
+                    >Entrez votre poids en kilogrammes (ex. 67.5).</small
+                >
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+    </section>
 
-        {% for message in app.flashes('success') %}
-        <div style="color: green">{{ message }}</div>
-        {% endfor %} {% for message in app.flashes('error') %}
-        <div style="color: red">{{ message }}</div>
-        {% endfor %}
-    </a>
+    {% for message in app.flashes('success') %}
+    <div class="flash-message flash-success">{{ message }}</div>
+    {% endfor %} {% for message in app.flashes('error') %}
+    <div class="flash-message flash-error">{{ message }}</div>
+    {% endfor %}
 </div>
-</div>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 {% endblock %}

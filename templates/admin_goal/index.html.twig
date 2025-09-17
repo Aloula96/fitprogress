@@ -1,49 +1,109 @@
-{# filepath: c:\Users\aloul\Documents\5.Projet
-final\fitprogress\templates\admin_goal\index.html.twig #} {% extends
-'baseAdmin.html.twig' %} {% block title %}Goals Administration{% endblock %} {%
-block body %}
+{% extends 'baseAdmin.html.twig' %} {% block title %}Goals Administration{%
+endblock %} {% block body %}
 <div class="container">
-    <h1>Goals Without Workout Plans</h1>
+    <h1>Goals Management</h1>
 
+    {# Section 1 : Goals without workout plan #}
+    <h2>Goals Without Workout Plans</h2>
     <table class="table">
         <thead>
             <tr>
                 <th>User</th>
-                <th>Goal Type</th>
+                <th>Goal</th>
                 <th>Target Weight</th>
-                <th>Created At</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            {% for goal in goalWithoutPlan %}
+            {% for goal in goalsWithoutPlans %}
             <tr>
                 <td>{{ goal.user.email }}</td>
                 <td>{{ goal.type.value }}</td>
                 <td>{{ goal.targetWeight }} kg</td>
-                <td>{{ goal.createdAt|date('Y-m-d') }}</td>
                 <td>
                     <a
                         href="{{
-                            path('admin_workoutplan_new', { id: goal.id })
+                            path('admin_workoutplan_create', { id: goal.id })
                         }}"
-                        class="btn btn-primary btn-sm"
+                        class="btn btn-sm btn-primary"
                     >
-                        <i class="fas fa-plus"></i> Create Plan
+                        Create Plan
                     </a>
                 </td>
             </tr>
             {% else %}
             <tr>
-                <td colspan="5" class="text-center">
-                    No goals without workout plans found
+                <td colspan="4" class="text-center text-muted">
+                    ✅ All goals have workout plans
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('admin_workoutplan_new') }}" class="btn btn-primary">
-        Create Workout Plan
-    </a>
+
+    {# Section 2 : Goals with workout plan #}
+    <h2 class="mt-4">Goals With Workout Plans</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Goal</th>
+                <th>Target Weight</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for goal in goalsWithPlans %}
+            <tr>
+                <td>{{ goal.user.email }}</td>
+                <td>{{ goal.type.value }}</td>
+                <td>{{ goal.targetWeight }} kg</td>
+                <td>
+                    <a
+                        href="{{
+                            path('admin_workoutplan_edit', {
+                                id: goal.workoutPlan.id
+                            })
+                        }}"
+                        class="btn btn-sm btn-secondary"
+                        >Edit</a
+                    >
+                    <a
+                        href="{{
+                            path('admin_workout_exercices', {
+                                id: goal.workoutPlan.id
+                            })
+                        }}"
+                        class="btn btn-sm btn-info"
+                        >Exercises</a
+                    >
+                    <form
+                        method="post"
+                        action="{{
+                            path('admin_workoutplan_delete', {
+                                id: goal.workoutPlan.id
+                            })
+                        }}"
+                        style="display: inline-block"
+                        onsubmit="return confirm('Are you sure?');"
+                    >
+                        <input
+                            type="hidden"
+                            name="_token"
+                            value="{{ csrf_token('delete' ~ goal.workoutPlan.id) }}"
+                        />
+                        <button class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" class="text-center text-muted">
+                    ❌ No goals with workout plans yet
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

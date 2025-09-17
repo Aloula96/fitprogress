@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %} {% block title %}Dashboard{% endblock %} {% block
+stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('styles/dashboard.css') }}" />
+{% endblock %} {% block body %}
+<div class="dashboard-container">
+    <div class="welcome-card">
+        <h2>Welcome, {{ user.name }}!</h2>
+        <p>Your next session: {{ nextSession }}</p>
+
+        <div class="dashboard-buttons">
+            {# Case 1: No goal yet #} {% if not goal %}
+            <a href="{{ path('goal') }}" class="btn btn-primary">
+                🎯 Set Your Goal<br /><small
+                    >Get a personalized workout plan</small
+                >
+            </a>
+
+            {# Case 2: Goal exists but no plan yet #} {% elseif goal and not
+            goal.workoutPlan %}
+            <p>Your coach will prepare your workout plan soon.</p>
+
+            {# Case 3: Plan exists #} {% elseif goal and goal.workoutPlan %}
+            <a href="{{ path('workout_plan_show') }}" class="btn">
+                📋 My Workout Plan<br /><small>View full plan</small>
+            </a>
+
+            {% if goal.workoutPlan.exercices is defined and
+            goal.workoutPlan.exercices|length > 0 %}
+            <a
+                href="{{
+                    path('workout_exercises', { id: goal.workoutPlan.id })
+                }}"
+                class="btn"
+            >
+                💪 My Exercises<br /><small>See exercises</small>
+            </a>
+            {% else %}
+            <p>No exercises available for this plan yet.</p>
+            {% endif %} {% endif %}
+        </div>
+
+        {# Session actions: only if a plan exists #} {% if goal and
+        goal.workoutPlan %}
+        <div class="dashboard-buttons bottom-buttons">
+            <a href="{{ path('app_start_workout') }}" class="btn btn-success">
+                ▶ Start Today's Workout
+            </a>
+            <a href="{{ path('app_mark_exercise') }}" class="btn btn-secondary">
+                ✔ Mark Exercise Done
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    {# Weight progress chart if data exists #} {% if bodyWeights is defined and
+    bodyWeights|length > 0 %}
+    <div class="weight-progress">
+        <h3>📊 Weight Progress</h3>
+        <div class="weight-chart">
+            <canvas id="weightChart"></canvas>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
