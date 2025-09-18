@@ -26,11 +26,9 @@ class ProfileController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        if (!$user) {
-            throw $this->createAccessDeniedException('You must be logged in to view your profile.');
+        if (!$this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('app_login');
         }
-
-
         // Get the current goal
         $goal = $goalRepository->findOneBy(['user' => $user]);
         $targetWeight = $goal ? $goal->getTargetWeight() : null;

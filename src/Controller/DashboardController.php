@@ -13,10 +13,14 @@ class DashboardController extends AbstractController
     #[Route('/dashboard', name: 'app_dashboard')]
     public function index(GoalRepository $goalRepository): Response
     {
+        if (!$this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('app_login');
+        }
         /** @var \App\Entity\User $user */
 
         $user = $this->getUser();
-        $nextSession = 'Monday, 7:00 AM';
+        $nextSession = (new \DateTimeImmutable('tomorrow 7:00'))->format('l, H:i');
+
 
         $goal = $goalRepository->findOneBy(['user' => $user]);
 

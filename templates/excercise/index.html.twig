@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %} {% block title %}Exercices{% endblock %} {% block
+stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('styles/exercices.css') }}" />
+{% endblock %} {% block body %}
+<div class="container exercices-container">
+    <h1 class="page-title">Exercices</h1>
+
+    <div class="row">
+        {% if exercices is not empty %} {% for exercice in exercices %}
+        <div class="col-md-4 mb-4">
+            <div class="card exercice-card">
+                {% if exercice.image %}
+                <img
+                    src="{{ asset('images/exercices/' ~ exercice.image) }}"
+                    class="card-img-top exercice-img"
+                    alt="{{ exercice.name }}"
+                />
+                {% else %}
+                <img
+                    src="{{ asset('images/exercices/default.jpg') }}"
+                    class="card-img-top exercice-img"
+                    alt="Default image"
+                />
+                {% endif %}
+
+                <div class="card-body">
+                    <h5>{{ exercice.name }}</h5>
+                    <p>{{ exercice.description }}</p>
+                    <p><strong>Sets:</strong> {{ exercice.sets }}</p>
+                    <p><strong>Reps:</strong> {{ exercice.reps }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %} {% else %}
+        <div class="col-12">
+            <p class="no-exercices">Aucun exercice disponible pour ce plan.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{{ path('workout_plan_show') }}" class="btn btn-secondary">
+            Retour au plan
+        </a>
+    </div>
+</div>
+{% endblock %}

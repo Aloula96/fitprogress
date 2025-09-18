@@ -1,9 +1,16 @@
-{% extends 'baseAdmin.html.twig' %} {% block title %}Add Exercise - s{% endblock
-%} {% block body %}
+{% extends 'baseAdmin.html.twig' %} {% block title %}Add Exercise{% endblock %}
+{% block body %}
 <div class="container">
     <h1>Add Exercice</h1>
 
-    {{ form_start(form, {'attr': {'class': 'mt-4'}}) }}
+    {{ form_start(form, {'attr': {'class': 'mt-4'}}) }} {# Upload file at the
+    top #}
+    <div class="mb-3">
+        {{ form_label(form.image, "Choisir un fichier") }}
+        {{ form_widget(form.image) }}
+        {{ form_errors(form.image) }}
+    </div>
+
     <div class="mb-3">
         {{ form_label(form.name) }}
         {{ form_widget(form.name) }}
@@ -31,10 +38,12 @@
 
     <button type="submit" class="btn btn-primary">Add Exercise</button>
     <a
-        href="{{ path('admin_workout_exercice_new', { id: workoutPlan.id }) }}"
+        href="{{ path('admin_workout_exercices', { id: workoutPlan.id }) }}"
         class="btn btn-secondary"
-        >Cancel</a
     >
+        Cancel
+    </a>
+
     {{ form_end(form) }}
 </div>
 {% endblock %}

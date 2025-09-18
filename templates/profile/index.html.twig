@@ -1,111 +1,139 @@
 {% extends 'base.html.twig' %} {% block title %}Mon Profil{% endblock %} {%
-block stylesheets %}
-<link rel="stylesheet" href="{{ asset('styles/monProfile.css') }}" />
-{% endblock %} {% block body %}
-<div class="monProfile-container">
-    <a href="{{ path('app_home') }}" class="back-button">
-        <span class="back-icon">←</span>
-        <span>Retourner à l'Accueil</span>
-    </a>
+block body %}
+<div class="container my-4">
+    <a href="{{ path('app_home') }}" class="btn btn-link mb-3"
+        >← Retourner à l'accueil</a
+    >
 
-    <header class="profile-header">
-        <h1>Profil de {{ user.name }}</h1>
-    </header>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h1 class="card-title">Profil de {{ user.name }}</h1>
+        </div>
+    </div>
 
-    <section class="profile-section">
-        <h2>Informations Personnelles</h2>
-        <ul class="profile-info">
-            <li><strong>Email :</strong> {{ user.email }}</li>
-            <li><strong>Âge :</strong> {{ user.age }} ans</li>
-            <li><strong>Taille :</strong> {{ user.height }} cm</li>
-            <li><strong>Poids initial :</strong> {{ user.weight }} kg</li>
-            {% if goal is not null %}
-            <li>
-                <strong>Poids objectif :</strong> {{ goal.targetWeight }} kg
-            </li>
+    <!-- Informations personnelles -->
+    <div class="card mb-4">
+        <div class="card-header">Informations Personnelles</div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>Email :</strong> {{ user.email }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Âge :</strong> {{ user.age }} ans
+                </li>
+                <li class="list-group-item">
+                    <strong>Taille :</strong> {{ user.height }} cm
+                </li>
+                <li class="list-group-item">
+                    <strong>Poids initial :</strong> {{ user.weight }} kg
+                </li>
+                {% if goal is not null %}
+                <li class="list-group-item">
+                    <strong>Poids objectif :</strong> {{ goal.targetWeight }} kg
+                </li>
+                {% else %}
+                <li class="list-group-item">
+                    Aucun objectif défini.
+                    <a
+                        href="{{ path('goal') }}"
+                        class="btn btn-sm btn-secondary ms-2"
+                        >Ajouter un objectif</a
+                    >
+                </li>
+                {% endif %} {% if workoutPlan is not null %}
+                <li class="list-group-item">
+                    <a
+                        href="{{ path('workout_plan_show') }}"
+                        class="btn btn-sm btn-primary"
+                        >Voir mon plan</a
+                    >
+                </li>
+                {% else %}
+                <li class="list-group-item text-muted">
+                    En attente d'un plan du coach
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Historique du poids -->
+    <div class="card mb-4">
+        <div class="card-header">Historique du Poids</div>
+        <div class="card-body">
+            {% if weights is not empty %}
+            <ul class="list-group">
+                {% for w in weights %}
+                <li class="list-group-item">
+                    {{ w.recordedAt ? w.recordedAt|date('d/m/Y') : 'N/A' }} →
+                    {{ w.weightValue }} kg
+                </li>
+                {% endfor %}
+            </ul>
             {% else %}
-            <li>
-                Aucun objectif défini.
-                <a href="{{ path('goal') }}" class="btn btn-secondary"
-                    >Ajouter un objectif</a
-                >
-            </li>
-            {% endif %} {% if workoutPlan is not null %}
-            <li>
-                <a
-                    href="{{ path('workout_plan_show') }}"
-                    class="btn btn-primary"
-                    >Voir mon plan</a
-                >
-            </li>
-            {% else %}
-            <li>En attente d'un plan du coach</li>
+            <p class="text-muted">Aucun poids enregistré pour l’instant.</p>
             {% endif %}
-        </ul>
-    </section>
+            <a
+                href="{{ path('app_stats', { id: user.id }) }}"
+                class="btn btn-sm btn-info mt-2"
+                >Voir les stats</a
+            >
+        </div>
+    </div>
 
-    <section class="weight-history">
-        <h2>Historique du Poids</h2>
-        {% if weights is not empty %}
-        <ul class="weight-list">
-            {% for w in weights %}
-            <li>
-                {{ w.recordedAt ? w.recordedAt|date('d/m/Y') : 'N/A' }} →
-                {{ w.weightValue }} kg
-            </li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p>Aucun poids enregistré pour l’instant.</p>
-        {% endif %}
-        <!-- Graphique -->
-        <a href="{{ path('app_stats', { id: user.id }) }}"> voir les stats </a>
-    </section>
-
-    <section class="current-goal">
-        <h2>Objectif Actuel</h2>
-        {% if goal is not null %}
-        <p>{{ goal.type.value }}</p>
-        {% else %}
-        <p>
-            Aucun objectif défini.
-            <a href="{{ path('goal') }}" class="btn btn-secondary"
+    <!-- Objectif actuel -->
+    <div class="card mb-4">
+        <div class="card-header">Objectif Actuel</div>
+        <div class="card-body">
+            {% if goal is not null %}
+            <p>{{ goal.type.value }}</p>
+            {% else %}
+            <p>Aucun objectif défini.</p>
+            <a href="{{ path('goal') }}" class="btn btn-sm btn-secondary"
                 >Ajouter un objectif</a
             >
-        </p>
-        {% endif %}
-    </section>
+            {% endif %}
+        </div>
+    </div>
 
-    <section class="weight-form">
-        <h2>Ajouter un Poids</h2>
-        <form method="post">
-            <div class="form-group">
-                <label for="weightValue">Poids actuel (kg)</label>
-                <input
-                    type="number"
-                    id="weightValue"
-                    name="weightValue"
-                    step="0.1"
-                    min="0"
-                    placeholder="Ex: 67.5"
-                    required
-                    aria-describedby="weightHelp"
-                />
+    <!-- Ajouter un poids -->
+    <div class="card mb-4">
+        <div class="card-header">Ajouter un Poids</div>
+        <div class="card-body">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="weightValue" class="form-label"
+                        >Poids actuel (kg)</label
+                    >
+                    <input
+                        type="number"
+                        id="weightValue"
+                        name="weightValue"
+                        step="0.1"
+                        min="0"
+                        placeholder="Ex: 67.5"
+                        class="form-control"
+                        required
+                    />
+                    <small class="text-muted"
+                        >Entrez votre poids en kilogrammes (ex. 67.5).</small
+                    >
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    Enregistrer
+                </button>
+            </form>
+        </div>
+    </div>
 
-                <small id="weightHelp" class="form-text"
-                    >Entrez votre poids en kilogrammes (ex. 67.5).</small
-                >
-            </div>
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
-        </form>
-    </section>
-
+    <!-- Messages flash -->
     {% for message in app.flashes('success') %}
-    <div class="flash-message flash-success">{{ message }}</div>
+    <div class="alert alert-success">{{ message }}</div>
     {% endfor %} {% for message in app.flashes('error') %}
-    <div class="flash-message flash-error">{{ message }}</div>
+    <div class="alert alert-danger">{{ message }}</div>
     {% endfor %}
 </div>
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 {% endblock %}

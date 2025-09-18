@@ -14,6 +14,9 @@ class WorkoutPlanController extends AbstractController
     #[Route('/', name: 'workout_plan_show')]
     public function show(): Response
     {
+        if (!$this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('app_login');
+        }
         /** @var User $user */
         $user = $this->getUser();
 

@@ -1,11 +1,10 @@
-<hr />
-<footer class="footer mt-5">
+<footer class="bg-dark text-light mt-5 pt-4 pb-3">
     <div class="container">
-        <div class="row">
+        <div class="row text-center">
             <!-- Logo & About -->
             <div class="col-md-4 mb-4">
-                <h3 class="footer-logo">FitProgress</h3>
-                <p>
+                <h3 class="fw-bold">FitProgress</h3>
+                <p class="small">
                     Votre coach personnel en ligne.<br />
                     Suivez vos progrès, atteignez vos objectifs, restez motivé
                     🚀
@@ -16,32 +15,61 @@
             <div class="col-md-4 mb-4">
                 <h5>Navigation</h5>
                 <ul class="list-unstyled">
-                    <li><a href="{{ path('app_home') }}">Accueil</a></li>
-                    <li><a href="{{ path('goal') }}">Objectifs</a></li>
-                    <li><a href="#">Programmes</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li>
+                        <a
+                            class="text-light text-decoration-none"
+                            href="{{ path('app_home') }}"
+                            >Accueil</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            class="text-light text-decoration-none"
+                            href="{{ path('goal') }}"
+                            >Objectifs</a
+                        >
+                    </li>
+                    <li>
+                        <a class="text-light text-decoration-none" href="#"
+                            >Programmes</a
+                        >
+                    </li>
+                    <li>
+                        <a class="text-light text-decoration-none" href="#"
+                            >Contact</a
+                        >
+                    </li>
                 </ul>
             </div>
 
             <!-- Contact & Socials -->
             <div class="col-md-4 mb-4">
                 <h5>Contact</h5>
-                <p>
+                <p class="small mb-1">
                     Email :
-                    <a href="mailto:contact@fitprogress.com"
-                        >contact@fitprogress.com</a
+                    <a
+                        class="text-light text-decoration-none"
+                        href="mailto:contact@fitprogress.com"
                     >
+                        contact@fitprogress.com
+                    </a>
                 </p>
-                <div class="social-icons">
-                    <a href="#"><i class="bi bi-facebook"></i></a>
-                    <a href="#"><i class="bi bi-instagram"></i></a>
-                    <a href="#"><i class="bi bi-twitter"></i></a>
+                <div>
+                    <a class="text-light me-2" href="#"
+                        ><i class="bi bi-facebook"></i
+                    ></a>
+                    <a class="text-light me-2" href="#"
+                        ><i class="bi bi-instagram"></i
+                    ></a>
+                    <a class="text-light" href="#"
+                        ><i class="bi bi-twitter"></i
+                    ></a>
                 </div>
             </div>
         </div>
 
-        <div class="text-center mt-4">
-            <p class="mb-0">
+        <div class="text-center mt-3">
+            <p class="mb-0 small">
                 &copy; {{ "now"|date("Y") }} FitProgress. Tous droits réservés.
             </p>
         </div>

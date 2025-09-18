@@ -17,6 +17,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "apexcharts": "^5.3.5",
         "bootstrap": "^5.3.8"
     }
 }

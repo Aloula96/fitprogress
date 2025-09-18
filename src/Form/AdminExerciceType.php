@@ -39,10 +39,12 @@ class AdminExerciceType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '5M',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
+                            'image/jpg',
+                            'image/webp',
                         ],
                         'mimeTypesMessage' => 'Please upload a valid JPG or PNG image',
                     ])

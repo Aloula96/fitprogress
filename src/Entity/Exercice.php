@@ -37,6 +37,12 @@ class Exercice
     #[ORM\ManyToOne(inversedBy: 'exercice')]
     private ?WorkoutPlan $workoutPlan = null;
 
+    public function __construct()
+    {
+
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -50,7 +56,6 @@ class Exercice
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -62,7 +67,6 @@ class Exercice
     public function setSets(int $sets): static
     {
         $this->sets = $sets;
-
         return $this;
     }
 
@@ -74,7 +78,6 @@ class Exercice
     public function setReps(int $reps): static
     {
         $this->reps = $reps;
-
         return $this;
     }
 
@@ -86,7 +89,6 @@ class Exercice
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
@@ -98,7 +100,6 @@ class Exercice
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
-
         return $this;
     }
 
@@ -110,7 +111,6 @@ class Exercice
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -133,7 +133,6 @@ class Exercice
     public function setWorkoutPlan(?WorkoutPlan $workoutPlan): static
     {
         $this->workoutPlan = $workoutPlan;
-
         return $this;
     }
 }

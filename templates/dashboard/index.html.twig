@@ -43,11 +43,13 @@ stylesheets %}
         {# Session actions: only if a plan exists #} {% if goal and
         goal.workoutPlan %}
         <div class="dashboard-buttons bottom-buttons">
-            <a href="{{ path('app_start_workout') }}" class="btn btn-success">
+            <a
+                href="{{
+                    path('workout_exercises', { id: goal.workoutPlan.id })
+                }}"
+                class="btn btn-success"
+            >
                 ▶ Start Today's Workout
-            </a>
-            <a href="{{ path('app_mark_exercise') }}" class="btn btn-secondary">
-                ✔ Mark Exercise Done
             </a>
         </div>
         {% endif %}

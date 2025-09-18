@@ -18,7 +18,7 @@ endblock %} {% block body %}
                 <tbody>
                     {% for goal in goalsWithoutPlans %}
                     <tr>
-                        <td>{{ goal.user.email }}</td>
+                        <td>{{ goal.user.name }}</td>
                         <td>{{ goal.type.value }}</td>
                         <td>{{ goal.targetWeight }} kg</td>
                         <td>{{ goal.createdAt|date('Y-m-d') }}</td>

@@ -17,3 +17,5 @@ import "./script/graph.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import "bootstrap";
+
+import ApexCharts from "apexcharts";

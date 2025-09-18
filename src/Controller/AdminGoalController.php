@@ -55,7 +55,7 @@ final class AdminGoalController extends AbstractController
         ]);
     }
 
-    #[Route('/', name: 'admin_without_workout_plan')]
+    #[Route('/without', name: 'admin_without_workout_plan')]
     public function WithoutWorkoutPlan(EntityManagerInterface $em): Response
     {
 

@@ -5,7 +5,6 @@ endblock %} {% block body %}
 
     <div class="card mb-4">
         <div class="card-body">
-            <h2 class="card-title">{{ workoutPlan.titles }}</h2>
             <p class="card-text">{{ workoutPlan.description }}</p>
 
             <div class="workout-info mb-3">
@@ -14,7 +13,7 @@ endblock %} {% block body %}
             </div>
 
             <a
-                href="{{ path('workout_exercices', { id: workoutPlan.id }) }}"
+                href="{{ path('workout_exercises', { id: workoutPlan.id }) }}"
                 class="btn btn-primary"
             >
                 <i class="fas fa-dumbbell"></i> Voir les Exercices

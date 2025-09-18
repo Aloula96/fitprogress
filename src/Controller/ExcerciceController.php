@@ -12,9 +12,12 @@ final class ExcerciceController extends AbstractController
     #[Route('/workout-plans/{id}/exercises', name: 'workout_exercises')]
     public function index(WorkoutPlan $workoutPlan): Response
     {
-        return $this->render('exercise/index.html.twig', [
+        if (!$this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('app_login');
+        }
+        return $this->render('excercise/index.html.twig', [
             'workoutPlan' => $workoutPlan,
-            'exercises' => $workoutPlan->getExercices(),
+            'exercices' => $workoutPlan->getExercices()
         ]);
     }
 }

@@ -24,9 +24,8 @@ class GoalController extends AbstractController
     ): Response {
         /** @var User $user */
         $user = $security->getUser();
-
-        if (!$user) {
-            throw $this->createAccessDeniedException('Tu dois être connecté pour définir un objectif.');
+        if (!$this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('app_login');
         }
 
         // ✅ If the user already has a goal → redirect to Dashboard
