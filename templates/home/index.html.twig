@@ -1,158 +1,181 @@
 {% extends 'base.html.twig' %} {% block title %}Hello HomeController!{% endblock
-%} {% block body %} {% block stylesheets %}
-<link rel="stylesheet" href="{{ asset('styles/home.css') }}" />
-{% endblock %} {% block javascripts %} {% block importmap %}
-{{ importmap("app") }}
-{% endblock %}
-<script src="{{ asset('js/home.js') }}"></script>
-{% endblock %}
-<section class="hero">
-    <img
-        src="https://images.pexels.com/photos/669576/pexels-photo-669576.jpeg"
-        alt="Fitness Image"
-        class="hero-image"
-    />
+%} {% block body %}
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+/>
+<section class="position-relative">
+    {% include "partial/slider.html.twig" %}
 
-    <div class="hero-box">
-        <h1>Un corps à <span>ton image</span></h1>
+    <div
+        class="position-absolute top-50 end-0 translate-middle-y bg-opacity-75 p-4 rounded shadow text-center"
+        style="max-width: 400px"
+    >
+        <h1>Un corps à <span class="text-danger">ton image</span></h1>
         <p>
             Suivez vos progrès en matière de remise en forme ; atteignez vos
             objectifs de remise en forme et suivez vos progrès
         </p>
         {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
-        <a href="{{ path('app_register') }}" class="hero-btn">Rejoignez-nous</a>
+        <a href="{{ path('app_register') }}" class="btn btn-danger"
+            >Rejoignez-nous</a
+        >
         {% else %}
-        <a href="{{ path('app_profile') }}" class="hero-btn">Mon Profil</a>
+        <a href="{{ path('app_profile') }}" class="btn btn-danger"
+            >Mon Profil</a
+        >
         {% endif %}
     </div>
 </section>
 
-{# cards of features #}
-
-<section class="features my-5">
+<!-- Features -->
+<section class="py-5 text-center">
     <h1 class="mb-4">Votre ambition fitness ??</h1>
-    <div class="row">
-        <div class="col-12 col-md-4 mb-4">
-            <div class="card card-custom h-100">
-                <img
-                    src="https://images.pexels.com/photos/6388453/pexels-photo-6388453.jpeg"
-                    class="card-img-top"
-                    alt="..."
-                />
-                <div class="card-body">
-                    <h2>Perte de poid</h2>
-                    <p>
-                        Some quick example text to build on the card title and
-                        make up the bulk of the card’s content.
-                    </p>
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card border border-light shadow h-100">
+                    <img
+                        src="https://images.pexels.com/photos/6388453/pexels-photo-6388453.jpeg"
+                        class="card-img-top"
+                        alt="Perte de poids"
+                    />
+                    <div class="card-body">
+                        <h2 class="h5">Perte de poids</h2>
+                        <p>
+                            Un texte d'exemple rapide pour compléter le contenu.
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="col-12 col-md-4 mb-4">
-            <div class="card card-custom h-100">
-                <img
-                    src="https://images.pexels.com/photos/5327511/pexels-photo-5327511.jpeg"
-                    class="card-img-top"
-                    alt="..."
-                />
-                <div class="card-body">
-                    <h2>Prise de masse</h2>
-                    <p>
-                        Some quick example text to build on the card title and
-                        make up the bulk of the card’s content.
-                    </p>
+            <div class="col-md-4">
+                <div class="card border border-light shadow h-100">
+                    <img
+                        src="https://images.pexels.com/photos/5327511/pexels-photo-5327511.jpeg"
+                        class="card-img-top"
+                        alt="Prise de masse"
+                    />
+                    <div class="card-body">
+                        <h2 class="h5">Prise de masse</h2>
+                        <p>
+                            Un texte d'exemple rapide pour compléter le contenu.
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="col-12 col-md-4 mb-4">
-            <div class="card card-custom h-100">
-                <img
-                    src="https://images.pexels.com/photos/8032920/pexels-photo-8032920.jpeg"
-                    class="card-img-top"
-                    alt="..."
-                />
-                <div class="card-body">
-                    <h2>Reprise</h2>
-                    <p>
-                        Some quick example text to build on the card title and
-                        make up the bulk of the card’s content.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-{# section about #}
-<section class="about row align-items-center">
-    <div class="col-12 col-md-6 mb-4">
-        <div class="card card-custom h-100">
-            <h1 id="about">À propos de FitProgress</h1>
-            <p>
-                FitProgress est une application de suivi de la condition
-                physique conçue pour vous aider à atteindre vos objectifs de
-                remise en forme. Que vous cherchiez à perdre du poids, à gagner
-                du muscle ou à améliorer votre endurance, FitProgress est là
-                pour vous soutenir à chaque étape de votre parcours.
-            </p>
-        </div>
-    </div>
-    <div class="col-12 col-md-6 mb-4">
-        <div class="card card-custom h-100">
-            <img
-                src="https://images.pexels.com/photos/6298479/pexels-photo-6298479.jpeg"
-                alt="À propos FitProgress"
-                class="card-image"
-            />
-        </div>
-    </div>
-</section>
-
-{# Les faux avis #}
-
-<section class="comments my-5">
-    <h1 class="mb-4">Les avis de nos clients</h1>
-    <div class="row">
-        <div class="col-12 col-md-4 mb-4">
-            <div class="card card-custom h-100">
-                <img
-                    src="https://images.pexels.com/photos/33740369/pexels-photo-33740369.png"
-                    class="card-img-top"
-                    alt="..."
-                />
-                <span class="star">★ ★ ★ ★ ★</span>
-                <div class="card-body">
-                    <p>I love this fitness app!! It has helped me stay</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-4 mb-4">
-            <div class="card card-custom h-100">
-                <img
-                    src="https://images.pexels.com/photos/33740369/pexels-photo-33740369.png"
-                    class="card-img-top"
-                    alt="..."
-                />
-                <span class="star">★ ★ ★ ★ ★</span>
-                <div class="card-body">
-                    <p>I love this fitness app!! It has helped me stay</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-4 mb-4">
-            <div class="card card-custom h-100">
-                <img
-                    src="https://images.pexels.com/photos/33740369/pexels-photo-33740369.png"
-                    class="card-img-top"
-                    alt="..."
-                />
-                <span class="star">★ ★ ★ ★ ★</span>
-                <div class="card-body">
-                    <p>I love this fitness app!! It has helped me stay</p>
+            <div class="col-md-4">
+                <div class="card border border-light shadow h-100">
+                    <img
+                        src="https://images.pexels.com/photos/8032920/pexels-photo-8032920.jpeg"
+                        class="card-img-top"
+                        alt="Reprise"
+                    />
+                    <div class="card-body">
+                        <h2 class="h5">Reprise</h2>
+                        <p>
+                            Un texte d'exemple rapide pour compléter le contenu.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- About -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-md-6">
+                <div class="card border border-light shadow p-4 h-100">
+                    <h1 id="about">À propos de FitProgress</h1>
+                    <p>
+                        FitProgress est une application de suivi de la condition
+                        physique conçue pour vous aider à atteindre vos
+                        objectifs de remise en forme. Que vous cherchiez à
+                        perdre du poids, à gagner du muscle ou à améliorer votre
+                        endurance, FitProgress est là pour vous soutenir.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img
+                    src="https://images.pexels.com/photos/6298479/pexels-photo-6298479.jpeg"
+                    alt="À propos FitProgress"
+                    class="img-fluid rounded border border-light shadow"
+                />
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Comments -->
+<section class="py-5">
+    <div class="container">
+        <h1 class="text-center mb-5">Les avis de nos clients</h1>
+        <div class="row g-4">
+            <!-- Avis 1 -->
+            <div class="col-md-4">
+                <div
+                    class="card border border-light shadow h-100 text-center p-4"
+                >
+                    <img
+                        src="https://images.pexels.com/photos/33740369/pexels-photo-33740369.png"
+                        class="rounded-circle mx-auto mb-3 border border-light"
+                        width="100"
+                        height="100"
+                        alt="Avis 1"
+                    />
+                    <div class="mb-2 text-warning fs-5">★★★★★</div>
+                    <p>
+                        “I love this fitness app!! It has helped me stay
+                        consistent and achieve my goals.”
+                    </p>
+                    <h6 class="fw-bold mt-3 text-info">— Sarah L.</h6>
+                </div>
+            </div>
+            <!-- Avis 2 -->
+            <div class="col-md-4">
+                <div
+                    class="card border border-light shadow h-100 text-center p-4"
+                >
+                    <img
+                        src="https://images.pexels.com/photos/33740369/pexels-photo-33740369.png"
+                        class="rounded-circle mx-auto mb-3 border border-light"
+                        width="100"
+                        height="100"
+                        alt="Avis 2"
+                    />
+                    <div class="mb-2 text-warning fs-5">★★★★★</div>
+                    <p>
+                        “This app keeps me motivated every day 💪 It’s easy to
+                        use and super motivating!”
+                    </p>
+                    <h6 class="fw-bold mt-3 text-info">— Kevin D.</h6>
+                </div>
+            </div>
+            <!-- Avis 3 -->
+            <div class="col-md-4">
+                <div
+                    class="card border border-light shadow h-100 text-center p-4"
+                >
+                    <img
+                        src="https://images.pexels.com/photos/33740369/pexels-photo-33740369.png"
+                        class="rounded-circle mx-auto mb-3 border border-light"
+                        width="100"
+                        height="100"
+                        alt="Avis 3"
+                    />
+                    <div class="mb-2 text-warning fs-5">★★★★★</div>
+                    <p>
+                        “Easy to use, and I can track all my progress! Highly
+                        recommended.”
+                    </p>
+                    <h6 class="fw-bold mt-3 text-info">— Julie M.</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {% endblock %}

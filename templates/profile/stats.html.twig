@@ -4,7 +4,10 @@ javascripts %}
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script src="{{ asset('script/graph.js') }}"></script>
 {% endblock %} {% block body %}
+<div class="container">
+    <h1 class="text-center my-4">My Stats</h1>
 
-<div id="graph" data-stats="{{ statsJson }}"></div>
+    <div id="graph" data-stats="{{ statsJson }}"></div>
+</div>
 
 {% endblock %}
