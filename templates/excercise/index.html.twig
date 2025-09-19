@@ -1,47 +1,62 @@
-{% extends 'base.html.twig' %} {% block title %}Exercices{% endblock %} {% block
-stylesheets %}
+{% extends 'base.html.twig' %} {% block title %}Mes Exercices{% endblock %} {%
+block stylesheets %}
 {{ parent() }}
-<link rel="stylesheet" href="{{ asset('styles/exercices.css') }}" />
+<link rel="stylesheet" href="{{ asset('styles/dashboard.css') }}" />
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+/>
 {% endblock %} {% block body %}
-<div class="container exercices-container">
-    <h1 class="page-title">Exercices</h1>
+<div class="container my-5">
+    <!-- Title -->
+    <div class="text-center mb-4">
+        <h1 class="fw-bold text-white">
+            <i class="bi bi-barbell"></i> Mes Exercices
+        </h1>
+        <p class="lead text-light">Voici les exercices de ton plan actuel</p>
+    </div>
 
     <div class="row">
-        {% if exercices is not empty %} {% for exercice in exercices %}
+        {% if exercices|length %} {% for exercice in exercices %}
         <div class="col-md-4 mb-4">
-            <div class="card exercice-card">
-                {% if exercice.image %}
+            <div class="card h-100 shadow-sm border-0 bg-dark text-white">
                 <img
-                    src="{{ asset('images/exercices/' ~ exercice.image) }}"
-                    class="card-img-top exercice-img"
+                    src="{{ asset('images/exercices/' ~ (exercice.image|default('default.jpg'))) }}"
+                    class="card-img-top"
                     alt="{{ exercice.name }}"
                 />
-                {% else %}
-                <img
-                    src="{{ asset('images/exercices/default.jpg') }}"
-                    class="card-img-top exercice-img"
-                    alt="Default image"
-                />
-                {% endif %}
-
-                <div class="card-body">
-                    <h5>{{ exercice.name }}</h5>
-                    <p>{{ exercice.description }}</p>
-                    <p><strong>Sets:</strong> {{ exercice.sets }}</p>
-                    <p><strong>Reps:</strong> {{ exercice.reps }}</p>
+                <div class="card-body text-center">
+                    <h5 class="fw-bold">{{ exercice.name }}</h5>
+                    <p class="small text-light">{{ exercice.description }}</p>
+                    <p>
+                        <span class="badge bg-primary">
+                            <i class="bi bi-list-ol"></i> Sets:
+                            {{ exercice.sets }}
+                        </span>
+                        <span class="badge bg-success">
+                            <i class="bi bi-repeat"></i> Reps:
+                            {{ exercice.reps }}
+                        </span>
+                    </p>
+                    <a href="#" class="btn btn-success btn-sm w-100">
+                        <i class="bi bi-check2-circle"></i> Marquer comme fait
+                    </a>
                 </div>
             </div>
         </div>
         {% endfor %} {% else %}
-        <div class="col-12">
-            <p class="no-exercices">Aucun exercice disponible pour ce plan.</p>
+        <div class="col-12 text-center">
+            <p class="text-light fst-italic">
+                Aucun exercice disponible pour ce plan.
+            </p>
         </div>
         {% endif %}
     </div>
 
+    <!-- Back button -->
     <div class="text-center mt-4">
-        <a href="{{ path('workout_plan_show') }}" class="btn btn-secondary">
-            Retour au plan
+        <a href="{{ path('workout_plan_show') }}" class="btn btn-light">
+            <i class="bi bi-arrow-left"></i> Retour au plan
         </a>
     </div>
 </div>

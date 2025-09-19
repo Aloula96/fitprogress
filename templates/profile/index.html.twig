@@ -1,19 +1,28 @@
 {% extends 'base.html.twig' %} {% block title %}Mon Profil{% endblock %} {%
 block body %}
-<div class="container my-4">
-    <a href="{{ path('app_home') }}" class="btn btn-link mb-3"
-        >← Retourner à l'accueil</a
-    >
+<link rel="stylesheet" href="{{ asset('styles/profile.css') }}" />
 
-    <div class="card mb-4">
-        <div class="card-body">
-            <h1 class="card-title">Profil de {{ user.name }}</h1>
-        </div>
+<div class="container my-5">
+    <!-- Retour -->
+    <a href="{{ path('app_home') }}" class="btn btn-outline-secondary mb-4">
+        <i class="bi bi-arrow-left"></i> Retour à l'accueil
+    </a>
+
+    <!-- En-tête Profil -->
+    <div class="text-center mb-5">
+        <h1 class="page-title">
+            <i class="bi bi-person-circle"></i> Profil de {{ user.name }}
+        </h1>
+        <p class="page-subtitle">
+            Gérez vos informations personnelles et vos objectifs
+        </p>
     </div>
 
     <!-- Informations personnelles -->
-    <div class="card mb-4">
-        <div class="card-header">Informations Personnelles</div>
+    <div class="card custom-card mb-4">
+        <div class="card-header header-primary">
+            <i class="bi bi-info-circle"></i> Informations Personnelles
+        </div>
         <div class="card-body">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
@@ -28,26 +37,31 @@ block body %}
                 <li class="list-group-item">
                     <strong>Poids initial :</strong> {{ user.weight }} kg
                 </li>
+
                 {% if goal is not null %}
                 <li class="list-group-item">
                     <strong>Poids objectif :</strong> {{ goal.targetWeight }} kg
                 </li>
                 {% else %}
-                <li class="list-group-item">
-                    Aucun objectif défini.
+                <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                >
+                    <span>Aucun objectif défini.</span>
                     <a
                         href="{{ path('goal') }}"
-                        class="btn btn-sm btn-secondary ms-2"
-                        >Ajouter un objectif</a
+                        class="btn btn-sm btn-secondary"
                     >
+                        <i class="bi bi-plus-circle"></i> Ajouter
+                    </a>
                 </li>
                 {% endif %} {% if workoutPlan is not null %}
-                <li class="list-group-item">
+                <li class="list-group-item text-center">
                     <a
                         href="{{ path('workout_plan_show') }}"
                         class="btn btn-sm btn-primary"
-                        >Voir mon plan</a
                     >
+                        <i class="bi bi-list-task"></i> Voir mon plan
+                    </a>
                 </li>
                 {% else %}
                 <li class="list-group-item text-muted">
@@ -59,50 +73,61 @@ block body %}
     </div>
 
     <!-- Historique du poids -->
-    <div class="card mb-4">
-        <div class="card-header">Historique du Poids</div>
+    <div class="card custom-card mb-4">
+        <div class="card-header header-secondary">
+            <i class="bi bi-graph-up"></i> Historique du Poids
+        </div>
         <div class="card-body">
             {% if weights is not empty %}
             <ul class="list-group">
                 {% for w in weights %}
-                <li class="list-group-item">
-                    {{ w.recordedAt ? w.recordedAt|date('d/m/Y') : 'N/A' }} →
-                    {{ w.weightValue }} kg
+                <li class="list-group-item d-flex justify-content-between">
+                    <span
+                        >{{ w.recordedAt ? w.recordedAt|date('d/m/Y') : 'N/A' }}</span
+                    >
+                    <span class="fw-bold">{{ w.weightValue }} kg</span>
                 </li>
                 {% endfor %}
             </ul>
             {% else %}
-            <p class="text-muted">Aucun poids enregistré pour l’instant.</p>
+            <p class="text-muted fst-italic">
+                Aucun poids enregistré pour l’instant.
+            </p>
             {% endif %}
             <a
                 href="{{ path('app_stats', { id: user.id }) }}"
-                class="btn btn-sm btn-info mt-2"
-                >Voir les stats</a
+                class="btn btn-outline-primary mt-3"
             >
+                <i class="bi bi-bar-chart"></i> Voir les stats
+            </a>
         </div>
     </div>
 
     <!-- Objectif actuel -->
-    <div class="card mb-4">
-        <div class="card-header">Objectif Actuel</div>
+    <div class="card custom-card mb-4">
+        <div class="card-header header-warning">
+            <i class="bi bi-bullseye"></i> Objectif Actuel
+        </div>
         <div class="card-body">
             {% if goal is not null %}
-            <p>{{ goal.type.value }}</p>
+            <p class="fw-semibold">{{ goal.type.value }}</p>
             {% else %}
-            <p>Aucun objectif défini.</p>
-            <a href="{{ path('goal') }}" class="btn btn-sm btn-secondary"
-                >Ajouter un objectif</a
-            >
+            <p class="text-muted">Aucun objectif défini.</p>
+            <a href="{{ path('goal') }}" class="btn btn-sm btn-outline-warning">
+                <i class="bi bi-plus-circle"></i> Ajouter un objectif
+            </a>
             {% endif %}
         </div>
     </div>
 
     <!-- Ajouter un poids -->
-    <div class="card mb-4">
-        <div class="card-header">Ajouter un Poids</div>
+    <div class="card custom-card mb-4">
+        <div class="card-header header-success">
+            <i class="bi bi-plus-square"></i> Ajouter un Poids
+        </div>
         <div class="card-body">
-            <form method="post">
-                <div class="mb-3">
+            <form method="post" class="row g-3">
+                <div class="col-md-6">
                     <label for="weightValue" class="form-label"
                         >Poids actuel (kg)</label
                     >
@@ -116,24 +141,28 @@ block body %}
                         class="form-control"
                         required
                     />
-                    <small class="text-muted"
-                        >Entrez votre poids en kilogrammes (ex. 67.5).</small
-                    >
+                    <div class="form-text">
+                        Entrez votre poids en kilogrammes.
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary">
-                    Enregistrer
-                </button>
+                <div class="col-md-6 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-save"></i> Enregistrer
+                    </button>
+                </div>
             </form>
         </div>
     </div>
 
     <!-- Messages flash -->
     {% for message in app.flashes('success') %}
-    <div class="alert alert-success">{{ message }}</div>
+    <div class="alert alert-success mt-3">
+        <i class="bi bi-check-circle"></i> {{ message }}
+    </div>
     {% endfor %} {% for message in app.flashes('error') %}
-    <div class="alert alert-danger">{{ message }}</div>
+    <div class="alert alert-danger mt-3">
+        <i class="bi bi-x-circle"></i> {{ message }}
+    </div>
     {% endfor %}
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 {% endblock %}

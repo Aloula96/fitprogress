@@ -1,54 +1,103 @@
+:root {
+  --primary: #2d3748;   /* anthracite pour textes */
+  --accent: #4fd1c7;    /* vert/bleu menthe */
+  --success: #c6f6d5;   /* vert doux */
+  --warning: #fed7d7;   /* rouge pastel */
+}
+
+/* Fond global sombre + bleu */
+body {
+  background: linear-gradient(135deg, #1a2332 0%, #0077be 100%);
+  font-family: 'Roboto', sans-serif;
+  color: #f7fafc;
+  min-height: 100vh;
+}
+
 .dashboard-container {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
+  max-width: 900px;
+  margin: auto;
+  padding: 2rem;
 }
 
-.dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* Cartes */
+.welcome-card,
+.weight-progress {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  color: var(--primary);
 }
 
-.welcome-card {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    margin-top: 20px;
+.welcome-card h2,
+.weight-progress h3,
+.card h2,
+.card h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--primary);
 }
 
+.welcome-card p {
+  color: #4a5568;
+}
+
+/* Boutons */
 .dashboard-buttons {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-    margin-top: 20px;
-}
-
-.dashboard-buttons.bottom-buttons {
-    margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: center;
 }
 
 .btn {
-    display: block;
-    padding: 15px 25px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    text-align: center;
-    text-decoration: none;
-    color: #111;
-    font-weight: bold;
-    flex: 1 1 200px;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
 }
 
 .btn small {
-    display: block;
-    font-weight: normal;
-    font-size: 0.85em;
-    color: #666;
+  display: block;
+  font-size: 0.8rem;
+  font-weight: normal;
+  color: #555;
 }
 
-.btn:hover {
-    background-color: #f0f0f0;
+/* Variantes boutons */
+.btn-primary {
+  background: var(--accent);
+  border: none;
+  color: #fff;
 }
+.btn-primary:hover { background: #38b2ac; }
+
+.btn-secondary {
+  background: var(--primary);
+  border: none;
+  color: #fff;
+}
+.btn-secondary:hover { background: #1a202c; }
+
+.btn-accent {
+  background: #fff;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+}
+.btn-accent:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-success {
+  background: var(--success);
+  border: none;
+  color: #22543d;
+}
+.btn-success:hover { background: #9ae6b4; }
+
+/* Graphique */
+.weight-chart { height: 300px; }

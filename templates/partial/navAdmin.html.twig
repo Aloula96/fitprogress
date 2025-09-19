@@ -1,47 +1,77 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        {# Logo (navbar-brand) #}
-        <a class="navbar-brand" href="{{ path('app_home') }}">
-            <img
-                src="{{ asset('assets/images/logo.svg') }}"
-                alt="FitProgress Logo"
-                width="150"
-            />
+<nav
+    class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow-sm"
+>
+    <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand fw-bold" href="{{ path('app_home_admin') }}">
+            FitProgress Admin
         </a>
 
-        {# Bouton mobile #}
+        <!-- Burger menu mobile -->
         <button
             class="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown"
+            data-bs-target="#navbarAdmin"
+            aria-controls="navbarAdmin"
             aria-expanded="false"
             aria-label="Toggle navigation"
         >
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        {# Menu #}
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- Links -->
+        <div class="collapse navbar-collapse" id="navbarAdmin">
+            <ul class="navbar-nav me-auto">
+                <!-- Liens communs -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_home_admin') }}"
+                    <a
+                        class="nav-link text-dark"
+                        href="{{ path('app_home_admin') }}"
                         >Dashboard</a
                     >
                 </li>
-
-        
-                    
-    
-
-            {# User Menu #}
-            <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_logout') }}">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
+                    <a
+                        class="nav-link text-dark"
+                        href="{{ path('app_dashboard') }}"
+                        >Vue Utilisateur</a
+                    >
                 </li>
+
+                <!-- Gestion admin -->
+                <li class="nav-item">
+                    <a
+                        class="nav-link text-dark"
+                        href="{{ path('admin_goal') }}"
+                        >Gérer les Objectifs</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link text-dark"
+                        href="{{ path('admin_user_index') }}"
+                        >Gérer les Utilisateurs</a
+                    >
+                </li>
+            </ul>
+
+            <!-- Infos user -->
+            <ul class="navbar-nav">
+                {% if app.user %}
+                <li class="nav-item">
+                    <span class="nav-link text-dark">
+                        👤 {{ app.user.name ?? app.user.email }}
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link text-dark"
+                        href="{{ path('app_logout') }}"
+                        >Déconnexion</a
+                    >
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>

@@ -2,46 +2,49 @@
 stylesheets %}
 {{ parent() }}
 <link rel="stylesheet" href="{{ asset('styles/dashboard.css') }}" />
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+/>
 {% endblock %} {% block body %}
 <div class="dashboard-container">
+    <!-- Carte de bienvenue -->
     <div class="welcome-card">
-        <h2>Welcome, {{ user.name }}!</h2>
-        <p>Your next session: {{ nextSession }}</p>
+        <h2>Bienvenue, {{ user.name }} !</h2>
+        <p>Prochaine session : {{ nextSession }}</p>
 
         <div class="dashboard-buttons">
-            {# Case 1: No goal yet #} {% if not goal %}
+            {% if not goal %}
             <a href="{{ path('goal') }}" class="btn btn-primary">
-                🎯 Set Your Goal<br /><small
-                    >Get a personalized workout plan</small
-                >
+                <i class="bi bi-bullseye"></i> Définir un objectif
+                <small>Obtenez un plan personnalisé</small>
             </a>
 
-            {# Case 2: Goal exists but no plan yet #} {% elseif goal and not
-            goal.workoutPlan %}
-            <p>Your coach will prepare your workout plan soon.</p>
+            {% elseif not goal.workoutPlan %}
+            <p>Votre coach prépare bientôt votre plan d’entraînement.</p>
 
-            {# Case 3: Plan exists #} {% elseif goal and goal.workoutPlan %}
-            <a href="{{ path('workout_plan_show') }}" class="btn">
-                📋 My Workout Plan<br /><small>View full plan</small>
+            {% else %}
+            <a href="{{ path('workout_plan_show') }}" class="btn btn-secondary">
+                <i class="bi bi-clipboard-check"></i> Mon Plan
+                <small>Voir le plan complet</small>
             </a>
 
-            {% if goal.workoutPlan.exercices is defined and
-            goal.workoutPlan.exercices|length > 0 %}
+            {% if goal.workoutPlan.exercices|length > 0 %}
             <a
                 href="{{
                     path('workout_exercises', { id: goal.workoutPlan.id })
                 }}"
-                class="btn"
+                class="btn btn-accent"
             >
-                💪 My Exercises<br /><small>See exercises</small>
+                <i class="bi bi-barbell"></i> Mes Exercices
+                <small>Voir les exercices</small>
             </a>
             {% else %}
-            <p>No exercises available for this plan yet.</p>
+            <p>Aucun exercice disponible pour ce plan.</p>
             {% endif %} {% endif %}
         </div>
 
-        {# Session actions: only if a plan exists #} {% if goal and
-        goal.workoutPlan %}
+        {% if goal and goal.workoutPlan %}
         <div class="dashboard-buttons bottom-buttons">
             <a
                 href="{{
@@ -49,20 +52,12 @@ stylesheets %}
                 }}"
                 class="btn btn-success"
             >
-                ▶ Start Today's Workout
+                <i class="bi bi-play-circle-fill"></i> Commencer l'entraînement
+                du jour
             </a>
         </div>
         {% endif %}
     </div>
-
-    {# Weight progress chart if data exists #} {% if bodyWeights is defined and
-    bodyWeights|length > 0 %}
-    <div class="weight-progress">
-        <h3>📊 Weight Progress</h3>
-        <div class="weight-chart">
-            <canvas id="weightChart"></canvas>
-        </div>
     </div>
-    {% endif %}
 </div>
 {% endblock %}

@@ -18,12 +18,12 @@ final class AdminGoalController extends AbstractController
     #[Route('/goal', name: 'admin_goal')]
     public function index(EntityManagerInterface $em): Response
     {
-        $goalWithoutPlan = $em->getRepository(Goal::class)->findBy(['workoutPlan' => null]);
-        $goalWithPlan = $em->getRepository(Goal::class)->findBy(['workoutPlan' => true]);
+        $goalsWithoutPlans = $em->getRepository(Goal::class)->findBy(['workoutPlan' => null]);
+        $goalsWithPlans = $em->getRepository(Goal::class)->findBy(['workoutPlan' => true]);
 
         return $this->render('admin_goal/index.html.twig', [
-            'goalWithPlan' => $goalWithPlan,
-            'goalWithoutPlan' => $goalWithoutPlan
+            'goalsWithPlans' => $goalsWithPlans,
+            'goalsWithoutPlans' => $goalsWithoutPlans
         ]);
     }
 

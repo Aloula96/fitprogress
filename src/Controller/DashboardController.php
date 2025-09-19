@@ -28,6 +28,8 @@ class DashboardController extends AbstractController
             'user' => $user,
             'nextSession' => $nextSession,
             'goal' => $goal,
+            'bodyWeights' => $user->getBodyWeights(),
+
         ]);
     }
 }

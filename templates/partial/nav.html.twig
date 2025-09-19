@@ -1,6 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav
+    class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow-sm"
+>
     <div class="container">
-        <a class="navbar-brand" href="{{ path('app_dashboard') }}">
+        <a class="navbar-brand fw-bold" href="{{ path('app_dashboard') }}">
             FitProgress
         </a>
 
@@ -9,6 +11,9 @@
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
         >
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -16,23 +21,32 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 {% if app.user %}
+                <!-- Liens visibles pour tous les utilisateurs connectés -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_dashboard') }}"
+                    <a
+                        class="nav-link text-dark"
+                        href="{{ path('app_dashboard') }}"
                         >Accueil</a
                     >
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('goal') }}">Objectif</a>
+                    <a class="nav-link text-dark" href="{{ path('goal') }}"
+                        >Objectif</a
+                    >
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('workout_plan_show') }}"
+                    <a
+                        class="nav-link text-dark"
+                        href="{{ path('workout_plan_show') }}"
                         >Mon Plan</a
                     >
                 </li>
-                {% if app.user.goal and app.user.goal.workoutPlan %}
+
+                {% if app.user is defined and app.user.goal is defined and
+                app.user.goal and app.user.goal.workoutPlan %}
                 <li class="nav-item">
                     <a
-                        class="nav-link"
+                        class="nav-link text-dark"
                         href="{{
                             path('workout_exercises', {
                                 id: app.user.goal.workoutPlan.id
@@ -43,19 +57,40 @@
                     </a>
                 </li>
                 {% endif %}
+
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_profile') }}"
+                    <a
+                        class="nav-link text-dark"
+                        href="{{ path('app_profile') }}"
                         >Profil</a
                     >
                 </li>
-                {% else %}
+
+                <!-- Liens admin -->
+                {% if 'ROLE_ADMIN' in app.user.roles %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_home') }}"
+                    <a
+                        class="nav-link text-dark"
+                        href="{{ path('app_home_admin') }}"
+                        >Admin Dashboard</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link text-dark"
+                        href="{{ path('admin_goal') }}"
+                        >Gérer les Utilisateurs</a
+                    >
+                </li>
+                {% endif %} {% else %}
+                <!-- Liens publics -->
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{{ path('app_home') }}"
                         >Accueil</a
                     >
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#about">À propos</a>
+                    <a class="nav-link text-dark" href="#about">À propos</a>
                 </li>
                 {% endif %}
             </ul>
@@ -63,23 +98,27 @@
             <ul class="navbar-nav">
                 {% if app.user %}
                 <li class="nav-item">
-                    <span class="nav-link"
-                        >👤 {{ app.user.name ?? app.user.email }}</span
-                    >
+                    <span class="nav-link text-dark">
+                        👤 {{ app.user.name ?? app.user.email }}
+                    </span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_logout') }}"
+                    <a
+                        class="nav-link text-dark"
+                        href="{{ path('app_logout') }}"
                         >Déconnexion</a
                     >
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_login') }}"
+                    <a class="nav-link text-dark" href="{{ path('app_login') }}"
                         >Connexion</a
                     >
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_register') }}"
+                    <a
+                        class="nav-link text-dark"
+                        href="{{ path('app_register') }}"
                         >Inscription</a
                     >
                 </li>

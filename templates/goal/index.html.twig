@@ -1,75 +1,72 @@
 {% extends 'base.html.twig' %} {% block title %}Choix de l'objectif{% endblock
 %} {% block stylesheets %}
 {{ parent() }}
-<link rel="stylesheet" href="{{ asset('styles/goal.css') }}" />
+<link rel="stylesheet" href="{{ asset('styles/dashboard.css') }}" />
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+/>
 {% endblock %} {% block javascripts %}
 {{ parent() }}
 <script src="{{ asset('js/imc.js') }}"></script>
 {% endblock %} {% block body %}
-<div
-    class="goal-container"
-    data-height="{{ user.height|default(0) }}"
-    data-weight="{{ user.weight|default(0) }}"
->
-    <div class="back-button">
-        <a href="{{ path('app_home') }}">
-            <span class="back-icon">←</span>
-            <span>Retourner au site</span>
-        </a>
+<div class="container my-5 text-white">
+    <!-- Retour -->
+    <a href="{{ path('app_home') }}" class="btn btn-outline-light mb-3">
+        <i class="bi bi-arrow-left"></i> Retour
+    </a>
+
+    <!-- Title -->
+    <div class="text-center mb-4">
+        <h1 class="fw-bold">
+            <i class="bi bi-bullseye"></i> Choix de l'objectif
+        </h1>
+        <p class="text-light">
+            Sélectionne ton objectif et définis ton poids cible
+        </p>
     </div>
 
-    <h2 class="goal-title">Quel est ton objectif?</h2>
-
+    <!-- Flash messages -->
     {% for label, messages in app.flashes %} {% for message in messages %}
     <div class="alert alert-{{ label }}">{{ message }}</div>
     {% endfor %} {% endfor %}
 
-    <form method="post" class="goal-form">
-        <div class="goal-options">
-            <label class="goal-card">
+    <!-- Form -->
+    <form method="post" class="p-4 bg-dark rounded shadow-sm">
+        <!-- Goals -->
+        <div class="mb-4">
+            <label class="d-block mb-2">
                 <input
                     type="radio"
                     name="goal"
                     value="prise_de_masse"
                     required
                 />
-                <div class="goal-content">
-                    <div class="goal-icon">🏋️</div>
-                    <h3>Prendre du muscle</h3>
-                    <p>Programme basé sur la musculation progressive</p>
-                </div>
+                <i class="bi bi-barbell"></i> Prendre du muscle
             </label>
-
-            <label class="goal-card">
+            <label class="d-block mb-2">
                 <input
                     type="radio"
                     name="goal"
                     value="perte_de_poids"
                     required
                 />
-                <div class="goal-content">
-                    <div class="goal-icon">⚡</div>
-                    <h3>Perdre du poids</h3>
-                    <p>Programme axé sur la perte de poids</p>
-                </div>
+                <i class="bi bi-lightning-charge"></i> Perdre du poids
             </label>
-
-            <label class="goal-card">
+            <label class="d-block">
                 <input type="radio" name="goal" value="maintien" required />
-                <div class="goal-content">
-                    <div class="goal-icon">⚖️</div>
-                    <h3>Maintenir du poids</h3>
-                    <p>Programme axé sur le maintien</p>
-                </div>
+                <i class="bi bi-scales"></i> Maintenir le poids
             </label>
         </div>
 
-        <div class="weight-input">
-            <label for="target_weight">Poids cible</label>
+        <!-- Target Weight -->
+        <div class="mb-4">
+            <label for="target_weight" class="form-label">Poids cible</label>
             <input
                 type="number"
                 id="target_weight"
                 name="target_weight"
+                class="form-control"
                 value="70"
                 min="40"
                 max="200"
@@ -77,7 +74,8 @@
             />
         </div>
 
-        <div class="imc-display">
+        <!-- IMC Info -->
+        <div class="mb-4">
             <p>
                 <strong>IMC actuel :</strong> <span id="current-imc">N/A</span>
             </p>
@@ -86,7 +84,10 @@
             </p>
         </div>
 
-        <button type="submit" class="submit-btn">Valider mon objectif</button>
+        <!-- Submit -->
+        <button type="submit" class="btn btn-success w-100">
+            <i class="bi bi-check-circle-fill"></i> Valider mon objectif
+        </button>
     </form>
 </div>
 {% endblock %}

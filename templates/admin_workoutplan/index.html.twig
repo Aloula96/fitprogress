@@ -1,110 +1,104 @@
-{% extends 'baseAdmin.html.twig' %} {% block title %}Workout Plans Management{%
+{% extends 'baseAdmin.html.twig' %} {% block title %}Workout Plans (Admin){%
 endblock %} {% block body %}
-<div class="container">
-    <div class="row mb-4">
-        <div class="col">
-            {% if goalsWithoutPlans|length > 0 %}
-            <h2 class="mb-3">Goals Needing Workout Plans</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>User</th>
-                        <th>Goal Type</th>
-                        <th>Target Weight</th>
-                        <th>Created At</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for goal in goalsWithoutPlans %}
-                    <tr>
-                        <td>{{ goal.user.name }}</td>
-                        <td>{{ goal.type.value }}</td>
-                        <td>{{ goal.targetWeight }} kg</td>
-                        <td>{{ goal.createdAt|date('Y-m-d') }}</td>
-                        <td>
-                            <a
-                                href="{{
-                                    path('admin_workoutplan_create', {
-                                        id: goal.id
-                                    })
-                                }}"
-                                class="btn btn-primary btn-sm"
-                            >
-                                <i class="fas fa-plus"></i> Create Workout Plan
-                            </a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% endif %} {% if goalsWithPlans|length > 0 %}
-            <h2 class="mb-3 mt-4">Goals With Workout Plans</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>User</th>
-                        <th>Goal Type</th>
-                        <th>Target Weight</th>
-                        <th>Created At</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for goal in goalsWithPlans %}
-                    <tr>
-                        <td>{{ goal.user.email }}</td>
-                        <td>{{ goal.type.value }}</td>
-                        <td>{{ goal.targetWeight }} kg</td>
-                        <td>{{ goal.createdAt|date('Y-m-d') }}</td>
-                        <td>
-                            <div class="btn-group">
-                                <a
-                                    href="{{
-                                        path('admin_workoutplan_edit', {
-                                            id: goal.workoutPlan.id
-                                        })
-                                    }}"
-                                    class="btn btn-secondary btn-sm"
-                                >
-                                    <i class="fas fa-edit"></i> Edit
-                                </a>
-                                <a
-                                    href="{{
-                                        path('admin_workout_exercices', {
-                                            id: goal.workoutPlan.id
-                                        })
-                                    }}"
-                                    class="btn btn-info btn-sm"
-                                >
-                                    <i class="fas fa-dumbbell"></i> Exercises
-                                </a>
-                                <form
-                                    method="post"
-                                    action="{{
-                                        path('admin_workoutplan_delete', {
-                                            id: goal.workoutPlan.id
-                                        })
-                                    }}"
-                                    onsubmit="return confirm('Êtes vous sûrs?');"
-                                >
-                                    <input
-                                        type="hidden"
-                                        name="_token"
-                                        value="{{ csrf_token('delete' ~ goal.workoutPlan.id) }}"
-                                    />
-                                    <button class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% endif %}
-        </div>
-    </div>
+<div class="container my-4">
+    <h1 class="mb-4">Workout Plans (Admin)</h1>
+    <p class="text-muted">
+        Ici vous pouvez créer, éditer ou supprimer les plans d'entraînement des
+        utilisateurs.
+    </p>
+
+    <!-- Goals without workout plans -->
+    <h2 class="h5 mt-4">Goals Without Plans</h2>
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>User</th>
+                <th>Goal</th>
+                <th>Target Weight</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for goal in goalsWithoutPlans %}
+            <tr>
+                <td>{{ goal.user.email }}</td>
+                <td>{{ goal.type.value }}</td>
+                <td>{{ goal.targetWeight }} kg</td>
+                <td>
+                    <a
+                        href="{{
+                            path('admin_workoutplan_create', { id: goal.id })
+                        }}"
+                        class="btn btn-sm btn-primary"
+                    >
+                        ➕ Create Plan
+                    </a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" class="text-center text-muted">
+                    ✅ Tous les objectifs ont déjà un plan
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Goals with workout plans -->
+    <h2 class="h5 mt-5">Goals With Plans</h2>
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>User</th>
+                <th>Goal</th>
+                <th>Target Weight</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for goal in goalsWithPlans %}
+            <tr>
+                <td>{{ goal.user.email }}</td>
+                <td>{{ goal.type.value }}</td>
+                <td>{{ goal.targetWeight }} kg</td>
+                <td>
+                    <a
+                        href="{{
+                            path('admin_workoutplan_edit', {
+                                id: goal.workoutPlan.id
+                            })
+                        }}"
+                        class="btn btn-sm btn-secondary"
+                        >✏️ Edit</a
+                    >
+                    <form
+                        method="post"
+                        action="{{
+                            path('admin_workoutplan_delete', {
+                                id: goal.workoutPlan.id
+                            })
+                        }}"
+                        style="display: inline-block"
+                        onsubmit="return confirm('Are you sure?');"
+                    >
+                        <input
+                            type="hidden"
+                            name="_token"
+                            value="{{ csrf_token('delete' ~ goal.workoutPlan.id) }}"
+                        />
+                        <button class="btn btn-sm btn-danger">🗑️ Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" class="text-center text-muted">
+                    ❌ Aucun plan créé pour l’instant
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

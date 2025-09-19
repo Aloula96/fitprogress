@@ -1,12 +1,12 @@
 {% extends 'baseAdmin.html.twig' %} {% block title %}Goals Administration{%
 endblock %} {% block body %}
-<div class="container">
-    <h1>Goals Management</h1>
+<div class="container my-4">
+    <h1 class="mb-4">Goals Management</h1>
 
-    {# Section 1 : Goals without workout plan #}
-    <h2>Goals Without Workout Plans</h2>
-    <table class="table">
-        <thead>
+    <!-- Section 1 : Goals without workout plans -->
+    <h2 class="h4">Goals Without Workout Plans</h2>
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-light">
             <tr>
                 <th>User</th>
                 <th>Goal</th>
@@ -23,7 +23,7 @@ endblock %} {% block body %}
                 <td>
                     <a
                         href="{{
-                            path('admin_workoutplan_create', { id: goal.id })
+                            path('admin_goal_create_plan', { id: goal.id })
                         }}"
                         class="btn btn-sm btn-primary"
                     >
@@ -34,17 +34,17 @@ endblock %} {% block body %}
             {% else %}
             <tr>
                 <td colspan="4" class="text-center text-muted">
-                    ✅ All goals have workout plans
+                    ✅ All goals already have workout plans
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    {# Section 2 : Goals with workout plan #}
-    <h2 class="mt-4">Goals With Workout Plans</h2>
-    <table class="table">
-        <thead>
+    <!-- Section 2 : Goals with workout plans -->
+    <h2 class="h4 mt-5">Goals With Workout Plans</h2>
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-light">
             <tr>
                 <th>User</th>
                 <th>Goal</th>
@@ -66,8 +66,9 @@ endblock %} {% block body %}
                             })
                         }}"
                         class="btn btn-sm btn-secondary"
-                        >Edit</a
                     >
+                        Edit
+                    </a>
                     <a
                         href="{{
                             path('admin_workout_exercices', {
@@ -75,8 +76,9 @@ endblock %} {% block body %}
                             })
                         }}"
                         class="btn btn-sm btn-info"
-                        >Exercises</a
                     >
+                        Exercises
+                    </a>
                     <form
                         method="post"
                         action="{{
