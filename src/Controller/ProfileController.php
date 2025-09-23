@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserType;
 use App\Entity\BodyWeight;
 use App\Repository\GoalRepository;
-use App\Repository\BodyWeightRepository;
 use App\Repository\UserRepository;
+use App\Repository\BodyWeightRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -93,6 +94,30 @@ class ProfileController extends AbstractController
         return $this->render('profile/stats.html.twig', [
             'statsJson' => $statsJson,
 
+        ]);
+    }
+    #[Route('/user/edit', name: 'app_profile_edit')]
+    public function edit(Request $request, EntityManagerInterface $em): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            $this->addFlash('success', 'Profil mis à jour avec succès ✅');
+
+            return $this->redirectToRoute('app_profile');
+        }
+
+        return $this->render('profile/edit.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

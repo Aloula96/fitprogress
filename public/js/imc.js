@@ -24,12 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    const height = parseFloat(container.dataset.height || 0);
-    const weight = parseFloat(container.dataset.weight || 0);
+    const height = parseFloat(container.dataset.height);
+    const weight = parseFloat(container.dataset.weight);
 
     console.log("📏 height:", height, "⚖️ weight:", weight);
 
-    const imc = calculIMC(weight, height);
+    const imc =
+        !isNaN(height) && !isNaN(weight) ? calculIMC(weight, height) : null;
+
     const category = categorieIMC(imc);
 
     document.getElementById("current-imc").textContent = imc ?? "N/A";

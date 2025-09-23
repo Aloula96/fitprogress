@@ -69,7 +69,7 @@ class GoalController extends AbstractController
             // ✅ After goal → go to workout plan
             return $this->redirectToRoute('workout_plan_show');
         }
-
+        
         return $this->render('goal/index.html.twig', [
             'user' => $user,
             'goal' => $goal,

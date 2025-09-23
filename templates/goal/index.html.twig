@@ -22,10 +22,11 @@
 <script src="{{ asset('js/imc.js') }}"></script>
 {% endblock %} {% block body %}
 <div
-    class="container my-5"
-    data-height="{{ user.height|default(0) }}"
-    data-weight="{{ user.weight|default(0) }}"
+    class="container my-5 goal-container"
+    data-height="{{ user.height ?? '' }}"
+    data-weight="{{ user.weight ?? '' }}"
 >
+
     <!-- Retour -->
     <a href="{{ path('app_home') }}" class="btn btn-info mb-4">
         <i class="bi bi-arrow-left"></i> Retour

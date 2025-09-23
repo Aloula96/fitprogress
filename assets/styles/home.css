@@ -127,4 +127,10 @@
 }
 .btn-signup:hover, .hero-btn:hover {
   background: #e04848;
-} */
+} */.hero-box {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  border: 1px solid var(--bs-border-color);
+  backdrop-filter: blur(6px); /* joli effet verre dépoli */
+  max-width: 400px;
+}

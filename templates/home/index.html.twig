@@ -4,26 +4,28 @@
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
 />
+<link rel="stylesheet" href="{{ asset('styles/home.css') }}" />
 <section class="position-relative">
     {% include "partial/slider.html.twig" %}
 
     <div
-        class="position-absolute top-50 end-0 translate-middle-y bg-opacity-75 p-4 rounded shadow text-center"
-        style="max-width: 400px"
+        class="hero-box position-absolute top-50 end-0 translate-middle-y p-4 rounded shadow-lg text-center"
     >
-        <h1>Un corps à <span class="text-danger">ton image</span></h1>
-        <p>
+        <h1 class="fw-bold">
+            Un corps à <span class="text-danger">ton image</span>
+        </h1>
+        <p class="mb-4">
             Suivez vos progrès en matière de remise en forme ; atteignez vos
-            objectifs de remise en forme et suivez vos progrès
+            objectifs et restez motivé jour après jour.
         </p>
         {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
-        <a href="{{ path('app_register') }}" class="btn btn-danger"
-            >Rejoignez-nous</a
-        >
+        <a href="{{ path('app_register') }}" class="btn btn-danger btn-lg px-4">
+            <i class="bi bi-person-plus"></i> Rejoignez-nous
+        </a>
         {% else %}
-        <a href="{{ path('app_profile') }}" class="btn btn-danger"
-            >Mon Profil</a
-        >
+        <a href="{{ path('app_profile') }}" class="btn btn-success btn-lg px-4">
+            <i class="bi bi-person-circle"></i> Mon Profil
+        </a>
         {% endif %}
     </div>
 </section>
