@@ -10,24 +10,24 @@ block stylesheets %}
 <div class="container my-5">
     <!-- Title -->
     <div class="text-center mb-4">
-        <h1 class="fw-bold text-white">
+        <h1 class="fw-bold page-title">
             <i class="bi bi-barbell"></i> Mes Exercices
         </h1>
-        <p class="lead text-light">Voici les exercices de ton plan actuel</p>
+        <p class="lead">Voici les exercices de ton plan actuel</p>
     </div>
 
     <div class="row">
         {% if exercices|length %} {% for exercice in exercices %}
         <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm border-0 bg-dark text-white">
+            <div class="card h-100">
                 <img
                     src="{{ asset('images/exercices/' ~ (exercice.image|default('default.jpg'))) }}"
                     class="card-img-top"
                     alt="{{ exercice.name }}"
                 />
                 <div class="card-body text-center">
-                    <h5 class="fw-bold">{{ exercice.name }}</h5>
-                    <p class="small text-light">{{ exercice.description }}</p>
+                    <h5 class="fw-bold card-title">{{ exercice.name }}</h5>
+                    <p class="small card-text">{{ exercice.description }}</p>
                     <p>
                         <span class="badge bg-primary">
                             <i class="bi bi-list-ol"></i> Sets:
@@ -46,9 +46,7 @@ block stylesheets %}
         </div>
         {% endfor %} {% else %}
         <div class="col-12 text-center">
-            <p class="text-light fst-italic">
-                Aucun exercice disponible pour ce plan.
-            </p>
+            <p class="no-exercices">Aucun exercice disponible pour ce plan.</p>
         </div>
         {% endif %}
     </div>

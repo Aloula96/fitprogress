@@ -21,7 +21,7 @@ objStats.forEach((item) => {
 });
 
 // Configuration the options of graph ApexCharts
-var options = {
+let options = {
     series: [
         {
             name: "Poids",
