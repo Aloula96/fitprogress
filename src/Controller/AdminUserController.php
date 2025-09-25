@@ -9,17 +9,12 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[IsGranted('ROLE_ADMIN')]
-#[Route('/admin/user')]
-class AdminUserController extends AbstractController
+#[IsGranted('ROLE_ADMIN')] #[Route('/admin/user')] class AdminUserController extends AbstractController
 {
-    #[Route('/', name: 'admin_user_index')]
-    public function index(EntityManagerInterface $em): Response
+    #[Route('/', name: 'admin_user_index')] public function index(EntityManagerInterface $em): Response
     {
-        $users = $em->getRepository(User::class)->findAll();
 
-        return $this->render('admin/user/index.html.twig', [
-            'users' => $users
-        ]);
+        $users = $em->getRepository(User::class)->findAll();
+        return $this->render('admin/user/index.html.twig', ['users' => $users]);
     }
 }

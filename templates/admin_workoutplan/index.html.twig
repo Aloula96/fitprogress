@@ -88,6 +88,16 @@ endblock %} {% block body %}
                             value="{{ csrf_token('delete' ~ goal.workoutPlan.id) }}"
                         />
                         <button class="btn btn-sm btn-danger">🗑️ Delete</button>
+                        <a
+                            href="{{
+                                path('admin_workout_exercices', {
+                                    id: goal.workoutPlan.id
+                                })
+                            }}"
+                            class="btn btn-sm btn-warning"
+                        >
+                            💪 Exercices
+                        </a>
                     </form>
                 </td>
             </tr>
