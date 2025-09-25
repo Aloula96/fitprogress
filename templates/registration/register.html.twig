@@ -25,6 +25,10 @@ block stylesheets %}
         <div class="input-group">
             <i class="bi bi-lock icon"></i>
             {{ form_widget(form.plainPassword, {'attr': {'placeholder': 'Mot de passe'
+
+
+
+
             }}) }}
         </div>
 
@@ -36,17 +40,32 @@ block stylesheets %}
         <div class="input-group">
             <i class="bi bi-rulers icon"></i>
             {{ form_widget(form.height, {'attr': {'placeholder': 'Taille (cm)'
+
+
+
+
             }}) }}
         </div>
 
         <div class="input-group">
             <i class="bi bi-scales icon"></i>
             {{ form_widget(form.weight, {'attr': {'placeholder': 'Poids de départ (kg)'
+
+
+
+
+            }}) }}
+        </div>
+        <div class="form-check mb-3">
+            {{ form_widget(form.agreeTerms, {'attr': {'class': 'form-check-input'
+
+
+
             }}) }}
         </div>
 
         <div class="d-grid mt-3">
-            {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+            {{ form_widget(form.save, {'attr': {'class': 'btn btn-danger'}}) }}
         </div>
 
         {{ form_end(form) }}

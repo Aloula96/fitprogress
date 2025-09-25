@@ -19,7 +19,7 @@ class DashboardController extends AbstractController
         /** @var \App\Entity\User $user */
 
         $user = $this->getUser();
-        $nextSession = (new \DateTimeImmutable('tomorrow 7:00'))->format('l, H:i');
+        $nextSession = (new \DateTimeImmutable('tomorrow 7:00'))->format('d/m/Y H:i');
 
 
         $goal = $goalRepository->findOneBy(['user' => $user]);
