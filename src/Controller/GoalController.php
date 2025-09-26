@@ -28,7 +28,7 @@ class GoalController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        // ✅ If the user already has a goal → redirect to Dashboard
+        //  If the user already has a goal → redirect to Dashboard
         $goal = $goalRepository->findOneBy(['user' => $user]);
         if ($goal && $request->isMethod('GET')) {
             return $this->redirectToRoute('app_dashboard');
@@ -64,12 +64,12 @@ class GoalController extends AbstractController
 
             $em->flush();
 
-            $this->addFlash('success', 'Ton objectif a été enregistré ✅');
+            $this->addFlash('success', 'Ton objectif a été enregistré !');
 
-            // ✅ After goal → go to workout plan
+            // After goal → go to workout plan
             return $this->redirectToRoute('workout_plan_show');
         }
-        
+
         return $this->render('goal/index.html.twig', [
             'user' => $user,
             'goal' => $goal,

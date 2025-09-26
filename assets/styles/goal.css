@@ -1,0 +1,15 @@
+/* Hide the radio */
+.goal-radio {
+  display: none;
+}
+
+/* Highlight card when selected */
+.goal-radio:checked + .card {
+  border: 2px solid #198754;
+  box-shadow: 0 0 10px rgba(25, 135, 84, 0.5);
+}
+
+/* Make cards clickable */
+.card {
+  cursor: pointer;
+}
